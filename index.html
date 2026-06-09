@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>GhanFeet</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-title" content="GhanFeet">
+<meta name="theme-color" content="#7A4A18">
+<!-- Apple touch icons (all sizes for all iPhones) -->
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%237A4A18'/%3E%3Ctext x='90' y='115' font-size='90' text-anchor='middle'%3E%F0%9F%AA%A8%3C/text%3E%3C/svg%3E">
+<!-- Splash screens for common iPhone sizes -->
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1170' height='2532'%3E%3Crect width='1170' height='2532' fill='%237A4A18'/%3E%3Ctext x='585' y='1200' font-size='200' text-anchor='middle'%3E%F0%9F%AA%A8%3C/text%3E%3Ctext x='585' y='1420' font-size='80' text-anchor='middle' fill='%23FFF8EE' font-family='serif'%3EGhanFeet%3C/text%3E%3Ctext x='585' y='1520' font-size='48' text-anchor='middle' fill='%23D9A05A' font-family='serif'%3EAnand Stones%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1125' height='2436'%3E%3Crect width='1125' height='2436' fill='%237A4A18'/%3E%3Ctext x='562' y='1150' font-size='200' text-anchor='middle'%3E%F0%9F%AA%A8%3C/text%3E%3Ctext x='562' y='1370' font-size='80' text-anchor='middle' fill='%23FFF8EE' font-family='serif'%3EGhanFeet%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5ECD7;--card:#FFFBF2;--primary:#B5702A;--primary-dark:#7A4A18;
+  --primary-light:#D9A05A;--primary-pale:#F2E0C0;--accent:#2C4F0F;
+  --accent-light:#4A7A20;--stone:#8C6E50;--stone-dark:#5C4230;
+  --stone-pale:#EAD9C0;--text:#2A1800;--text-mid:#5A3A18;--text-light:#8A6040;
+  --border:#C8A882;--danger:#B03020;--danger-light:#FAE0DC;
+  --success:#2A8A48;--success-light:#D8F2E4;--input-bg:#FEF8EE;
+  --shadow:rgba(120,72,20,0.13);
+  --mine:#5B2D8E;--mine-light:#EDE5F8;--mine-border:#C4A8EE;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);font-family:'Lora',Georgia,serif;color:var(--text);min-height:100vh;min-height:-webkit-fill-available;padding-top:env(safe-area-inset-top);-webkit-text-size-adjust:100%;overscroll-behavior-y:none;-webkit-overflow-scrolling:touch;}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 15% 20%,rgba(181,112,42,.08) 0%,transparent 50%),radial-gradient(circle at 85% 80%,rgba(44,79,15,.06) 0%,transparent 50%);pointer-events:none;z-index:0;}
+.wrapper{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 0 calc(80px + env(safe-area-inset-bottom));}
+
+/* HEADER */
+.site-header{background:linear-gradient(135deg,var(--primary-dark),var(--primary) 55%,var(--primary-light));padding:calc(26px + env(safe-area-inset-top)) 36px 22px;display:flex;align-items:center;gap:18px;box-shadow:0 6px 30px var(--shadow);position:relative;overflow:hidden;}
+.site-header::after{content:'';position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.06);}
+.header-icon{font-size:42px;line-height:1;}
+.header-text h1{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:#FFF8EE;}
+.header-text p{font-size:11px;color:#FFE4B0;letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
+
+/* TABS */
+.tabs{display:flex;background:var(--card);border-bottom:2px solid var(--border);box-shadow:0 2px 10px var(--shadow);position:sticky;top:0;z-index:50;}
+.tab-btn{flex:1;padding:13px 6px;min-height:44px;border:none;background:transparent;font-family:'Lora',serif;font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;color:var(--text-light);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.tab-btn.active{color:var(--primary-dark);border-bottom-color:var(--primary);background:var(--bg);}
+
+/* PANELS */
+.tab-panel{display:none;padding:22px 26px;-webkit-overflow-scrolling:touch;}
+.tab-panel.active{display:block;}
+.card{background:var(--card);border-radius:14px;padding:18px 20px;margin-bottom:16px;box-shadow:0 3px 16px var(--shadow);border:1px solid var(--border);animation:fadeUp .3s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card-title{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:var(--primary-dark);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--stone-pale);display:flex;align-items:center;gap:7px;}
+
+/* MINE BADGE */
+.mine-active-badge{display:inline-flex;align-items:center;gap:6px;background:var(--mine-light);color:var(--mine);border:1.5px solid var(--mine-border);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:700;margin-bottom:14px;}
+.mine-active-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--mine);flex-shrink:0;}
+
+/* MINE CARD in list */
+.mine-card{background:var(--card);border-radius:12px;padding:14px 16px;margin-bottom:10px;border:1.5px solid var(--border);box-shadow:0 2px 10px var(--shadow);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;}
+.mine-card:hover{border-color:var(--mine-border);box-shadow:0 4px 20px rgba(91,45,142,.15);}
+.mine-card.selected{border-color:var(--mine);background:var(--mine-light);}
+.mine-icon{font-size:28px;flex-shrink:0;}
+.mine-info{flex:1;min-width:0;}
+.mine-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--primary-dark);}
+.mine-card.selected .mine-name{color:var(--mine);}
+.mine-meta{font-size:11px;color:var(--text-light);margin-top:3px;}
+.mine-stats{text-align:right;flex-shrink:0;}
+.mine-bill-count{font-size:13px;font-weight:700;color:var(--primary-dark);}
+.mine-total-amt{font-size:11px;color:var(--text-light);margin-top:2px;}
+.mine-sel-check{font-size:20px;flex-shrink:0;}
+.mine-add-row{display:flex;gap:10px;margin-bottom:16px;}
+.mine-add-row input{flex:1;background:var(--input-bg);border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Lora',serif;font-size:16px;color:var(--text);outline:none;-webkit-appearance:none;}
+.mine-add-row input:focus{border-color:var(--mine);box-shadow:0 0 0 3px rgba(91,45,142,.12);}
+.mine-add-btn{background:var(--mine);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-family:'Lora',serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.mine-del-btn{background:var(--danger-light);border:none;border-radius:8px;color:var(--danger);font-size:16px;width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.no-mine-warning{background:#FFF3CD;border:1.5px solid #FFD700;border-radius:10px;padding:11px 14px;font-size:12px;color:#856404;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+
+/* FORMS */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.form-grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:11px;}
+.form-grid-5{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:10px;}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+.form-group label{font-size:10px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:.7px;}
+input[type=text],input[type=number],input[type=search],input[type=tel],input[type=date]{background:var(--input-bg);border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Lora',serif;font-size:16px;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;width:100%;-webkit-appearance:none;appearance:none;}
+input:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(181,112,42,.15);}
+input[readonly]{background:#f5f0e8;cursor:default;color:var(--text-mid);}
+select{cursor:pointer;-webkit-appearance:none;appearance:none;background-color:var(--input-bg);border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Lora',serif;font-size:16px;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s;width:100%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A6040' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+
+/* ITEM ROWS */
+.item-row{background:var(--input-bg);border:1.5px solid var(--stone-pale);border-radius:14px;padding:14px;margin-bottom:12px;transition:box-shadow .2s,border-color .2s;}
+.item-row:hover{box-shadow:0 4px 18px var(--shadow);border-color:var(--border);}
+.item-row-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.item-num-badge{font-size:11px;font-weight:700;color:var(--stone-dark);text-transform:uppercase;letter-spacing:1.5px;background:var(--stone-pale);padding:3px 10px;border-radius:20px;}
+.item-right-controls{display:flex;gap:8px;align-items:center;}
+.item-result-badge{background:var(--success-light);color:var(--success);font-size:13px;font-weight:700;padding:4px 12px;border-radius:20px;border:1px solid rgba(42,138,72,.2);min-width:90px;text-align:center;}
+.item-amt-badge{background:linear-gradient(90deg,rgba(181,112,42,.12),rgba(181,112,42,.08));color:var(--primary-dark);font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;border:1px solid rgba(181,112,42,.2);min-width:90px;text-align:center;}
+.del-btn{background:var(--danger-light);border:none;border-radius:8px;color:var(--danger);font-size:17px;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:bold;transition:all .15s;flex-shrink:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.del-btn:hover{background:var(--danger);color:#fff;}
+.item-formula-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.formula-mini-select{font-size:12px;}
+
+/* TOTAL BOX */
+.grand-total-box{background:linear-gradient(135deg,rgba(44,79,15,.1),rgba(74,122,32,.12));border:1.5px solid rgba(44,79,15,.3);border-radius:12px;padding:14px 18px;margin-top:4px;display:flex;align-items:center;justify-content:space-between;}
+.grand-total-label{font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.grand-total-value{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent);}
+
+/* BUTTONS */
+.btn{display:block;width:100%;padding:13px;min-height:44px;border:none;border-radius:12px;font-family:'Lora',serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:10px;letter-spacing:.5px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.btn-primary{background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:#FFF8EE;box-shadow:0 4px 16px rgba(122,74,24,.3);}
+.btn-stone{background:var(--stone-pale);color:var(--stone-dark);}
+.btn-add{background:linear-gradient(90deg,var(--accent),var(--accent-light));color:#fff;margin-top:4px;margin-bottom:12px;}
+.btn-save{background:linear-gradient(135deg,var(--success),#1f7038);color:#fff;}
+.btn-print{background:linear-gradient(135deg,#1a3a6e,#2a5abf);color:#fff;}
+.btn-mine{background:linear-gradient(135deg,var(--mine),#7B4EC0);color:#fff;}
+.roundoff-row{background:linear-gradient(90deg,rgba(181,112,42,.07),transparent);border-radius:8px;padding:2px 0;}
+
+/* SUMMARY */
+.summary-hero{background:linear-gradient(135deg,var(--primary-dark),var(--primary));border-radius:16px;padding:26px 22px;text-align:center;margin-bottom:16px;box-shadow:0 6px 24px var(--shadow);}
+.summary-hero-label{font-size:11px;color:#FFE4B0;letter-spacing:2px;text-transform:uppercase;}
+.summary-hero-value{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:#FFF8EE;margin:5px 0 3px;}
+.summary-hero-sub{font-size:13px;color:#FFD090;}
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--stone-pale);font-size:13px;}
+.summary-row:last-child{border-bottom:none;}
+.breakdown-item{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 12px;background:var(--input-bg);border-radius:8px;margin-bottom:6px;border:1px solid var(--stone-pale);}
+.breakdown-item-num{font-size:11px;font-weight:700;color:var(--stone);}
+.breakdown-item-detail{font-size:11px;color:var(--text-light);margin-top:2px;line-height:1.5;}
+.breakdown-right{text-align:right;min-width:80px;}
+.breakdown-result{font-weight:700;color:var(--accent);font-size:13px;}
+.breakdown-amt{font-size:12px;color:var(--primary-dark);font-weight:700;margin-top:2px;}
+.badge-remaining{background:var(--danger-light);color:var(--danger);padding:3px 10px;border-radius:20px;font-size:13px;font-weight:700;}
+.badge-paid{background:var(--success-light);color:var(--success);padding:3px 10px;border-radius:20px;font-size:13px;font-weight:700;}
+
+/* BILL */
+#bill-area{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 30px var(--shadow);border:1px solid #d8c9b0;margin-bottom:16px;}
+.bill-header{padding:26px 22px 18px;text-align:center;border-bottom:1px solid #e8dcc8;}
+.bill-header h2{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:#8C6E50;font-style:italic;}
+.bill-mine-tag{display:inline-block;background:#EDE5F8;color:#5B2D8E;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 12px;border-radius:12px;margin-top:5px;}
+.bill-firm{font-size:11px;color:#B5702A;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:5px;}
+.bill-header p{font-size:10px;color:#a89070;letter-spacing:3px;text-transform:uppercase;margin-top:3px;}
+.bill-info-grid{display:grid;grid-template-columns:1fr 1fr;padding:16px 22px 12px;border-bottom:1px solid #e8dcc8;}
+.bill-info-item{padding:4px 0;}
+.bill-info-item.ra{text-align:right;}
+.bill-info-label{font-size:9px;color:#a89070;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;}
+.bill-info-value{font-size:13px;font-weight:700;color:#2A1800;margin-top:3px;}
+.bill-sec-title{padding:9px 22px 5px;font-size:10px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;border-bottom:1px solid #e8dcc8;}
+table.bt{width:100%;border-collapse:collapse;font-size:12px;}
+table.bt th{padding:8px 10px;text-align:center;font-family:'Lora',serif;font-size:9px;color:#8C6E50;font-weight:700;text-transform:uppercase;border-bottom:1px solid #d8c9b0;}
+table.bt th:first-child{text-align:left;}
+table.bt th:last-child{text-align:right;}
+table.bt td{padding:8px 10px;border-bottom:1px solid #f0e8da;font-family:'Lora',serif;text-align:center;color:#2A1800;font-size:12px;}
+table.bt td:first-child{text-align:left;color:#8C6E50;font-weight:700;}
+table.bt td:last-child{text-align:right;font-weight:700;}
+table.bt td.rc{text-align:right;font-weight:700;color:#2C4F0F;}
+table.bt td.ac{text-align:right;font-weight:700;}
+.bill-formula-totals{padding:4px 0 0;}
+.bill-formula-total-row{display:flex;justify-content:space-between;align-items:center;padding:7px 22px;border-bottom:1px solid #f0e8da;font-size:12px;}
+.bill-formula-total-row:last-child{border-bottom:none;}
+.bft-label{display:flex;align-items:center;gap:6px;color:#5A3A18;font-weight:600;}
+.bft-badge{font-size:10px;font-weight:700;background:var(--primary-pale);color:var(--primary-dark);padding:2px 8px;border-radius:12px;border:1px solid rgba(181,112,42,.2);}
+.bft-values{display:flex;gap:16px;align-items:center;}
+.bft-result{font-weight:700;color:#2C4F0F;font-size:13px;}
+.bft-amt{font-weight:700;color:#2A1800;font-size:13px;}
+.bill-formula-totals-title{padding:6px 22px 3px;font-size:9px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;background:#faf6f0;border-top:1px solid #d8c9b0;}
+.bill-subtotal-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 22px;background:#faf6f0;border-top:1px solid #d8c9b0;border-bottom:1px solid #d8c9b0;}
+.bill-subtotal-bar span:first-child{font-size:10px;color:#a89070;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;}
+.bill-subtotal-bar span:last-child{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#B5702A;}
+.bill-amt-section{padding:3px 22px;}
+.bill-amt-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #d8c9b0;font-size:13px;}
+.bill-amt-row:last-child{border-bottom:none;}
+.bill-amt-row .lbl{color:#5A3A18;}
+.bill-amt-row .val{font-weight:700;color:#2A1800;}
+.bill-remaining-row{display:flex;justify-content:space-between;align-items:center;padding:13px 22px;border-top:2px solid #d8c9b0;}
+.bill-footer{text-align:center;padding:9px 22px;border-top:1px solid #e8dcc8;font-size:10px;color:#a89070;letter-spacing:2px;text-transform:uppercase;}
+
+/* HISTORY */
+.hist-filter-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.hist-mine-filter{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:6px 14px;font-family:'Lora',serif;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-light);transition:all .2s;}
+.hist-mine-filter.active{background:var(--mine-light);color:var(--mine);border-color:var(--mine-border);}
+.bill-card-hist{background:var(--card);border-radius:12px;padding:15px;margin-bottom:11px;box-shadow:0 2px 12px var(--shadow);border:1px solid var(--border);}
+.bch-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:11px;}
+.bch-buyer{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--primary-dark);}
+.bch-mine-tag{display:inline-block;background:var(--mine-light);color:var(--mine);font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;margin-bottom:3px;}
+.bch-sub{font-size:11px;color:var(--text-light);margin-top:3px;}
+.bch-amt{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:var(--text);}
+.bch-detail{font-size:11px;color:var(--accent);font-weight:700;}
+.bch-rem{font-size:11px;font-weight:700;margin-top:3px;}
+.bch-actions{display:flex;gap:8px;}
+.bch-btn{flex:1;padding:8px;border:none;border-radius:8px;font-family:'Lora',serif;font-size:13px;font-weight:700;cursor:pointer;}
+.bch-view{background:var(--primary-pale);color:var(--primary-dark);}
+.bch-delete{background:var(--danger-light);color:var(--danger);}
+.bch-pdf{background:linear-gradient(135deg,#1a3a6e,#2a5abf);color:#fff;}
+.empty-hist{text-align:center;padding:40px 20px;color:var(--text-light);}
+.emp-icon{font-size:44px;margin-bottom:10px;}
+
+/* MINE SUMMARY CARD */
+.mine-summary-card{background:linear-gradient(135deg,var(--mine-light),#F5EFFD);border:1.5px solid var(--mine-border);border-radius:12px;padding:14px 16px;margin-bottom:12px;}
+.mine-summary-title{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--mine);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.mine-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.mine-sum-item{background:#fff;border-radius:8px;padding:9px;text-align:center;}
+.mine-sum-label{font-size:9px;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+.mine-sum-value{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:var(--primary-dark);margin-top:3px;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal-box{background:var(--card);border-radius:16px;padding:26px 26px 22px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:fadeUp .25s ease;}
+.modal-box h3{font-family:'Playfair Display',serif;font-size:19px;color:var(--primary-dark);margin-bottom:9px;}
+.modal-box p{font-size:13px;color:var(--text-mid);margin-bottom:18px;line-height:1.6;}
+.modal-actions{display:flex;gap:10px;}
+.modal-actions button{flex:1;padding:12px;border:none;border-radius:10px;font-family:'Lora',serif;font-size:14px;font-weight:700;cursor:pointer;}
+.modal-confirm{background:var(--success);color:#fff;}
+.modal-cancel{background:var(--stone-pale);color:var(--text);}
+
+/* EDIT MODAL */
+.edit-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:flex-start;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 8px calc(40px + env(safe-area-inset-bottom));}
+.edit-modal-overlay.show{display:flex;}
+.edit-modal-box{background:var(--bg);border-radius:18px;width:100%;max-width:680px;box-shadow:0 20px 70px rgba(0,0,0,.35);animation:fadeUp .25s ease;margin:auto;}
+.edit-modal-header{background:linear-gradient(135deg,var(--primary-dark),var(--primary));border-radius:18px 18px 0 0;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;}
+.edit-modal-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:#FFF8EE;}
+.edit-modal-close{background:rgba(255,255,255,.15);border:none;border-radius:8px;color:#FFF8EE;font-size:20px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.edit-modal-body{padding:18px 20px;}
+.edit-section{background:var(--card);border-radius:12px;padding:14px 16px;margin-bottom:14px;border:1px solid var(--border);}
+.edit-section-title{font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--stone-pale);}
+.edit-item-row{background:var(--input-bg);border:1.5px solid var(--stone-pale);border-radius:12px;padding:12px;margin-bottom:10px;}
+.edit-item-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.edit-live-total{background:linear-gradient(135deg,rgba(44,79,15,.12),rgba(74,122,32,.1));border:1px solid rgba(44,79,15,.25);border-radius:10px;padding:11px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.edit-live-label{font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.edit-live-value{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--accent);}
+.edit-modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px;}
+.edit-modal-footer button{flex:1;padding:13px;border:none;border-radius:10px;font-family:'Lora',serif;font-size:14px;font-weight:700;cursor:pointer;}
+.edit-save-btn{background:linear-gradient(135deg,var(--success),#1f7038);color:#fff;}
+.edit-cancel-btn{background:var(--stone-pale);color:var(--stone-dark);}
+.edit-add-item-btn{width:100%;padding:10px;border:none;border-radius:10px;font-family:'Lora',serif;font-size:13px;font-weight:700;cursor:pointer;background:linear-gradient(90deg,var(--accent),var(--accent-light));color:#fff;margin-bottom:4px;}
+.bch-edit{background:linear-gradient(90deg,rgba(181,112,42,.15),rgba(181,112,42,.08));color:var(--primary-dark);}
+
+@media(max-width:600px){
+  .site-header{padding:calc(12px + env(safe-area-inset-top)) 14px 12px;}
+  .header-text h1{font-size:17px;}
+  .header-icon{font-size:32px;}
+  .tab-panel{padding:12px 10px;}
+  .form-grid-4,.form-grid-5{grid-template-columns:1fr 1fr;}
+  .item-formula-row{grid-template-columns:1fr;}
+  .mine-summary-grid{grid-template-columns:1fr 1fr;}
+  .tab-btn{font-size:9px;padding:10px 2px;letter-spacing:.4px;}
+  .card{padding:14px 13px;margin-bottom:12px;}
+  input,select,textarea{font-size:16px!important;} /* Prevents iOS zoom on focus */
+}
+@media print{
+  @page{margin:10mm;size:A4;}
+  body{background:white;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .no-print{display:none!important;}
+  .site-header,.tabs{display:none;}
+  .tab-panel{display:block!important;padding:0;}
+  #panel-entry,#panel-summary,#panel-history,#panel-mines{display:none!important;}
+  #panel-bill{display:block!important;}
+  #bill-area{border-radius:0;box-shadow:none;}
+  .wrapper{max-width:100%;}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<header class="site-header">
+  <div class="header-icon">&#129704;</div>
+  <div class="header-text">
+    <h1>Sandstone GhanFeet Calculator</h1>
+    <p>Measurement &amp; Bill Generation System</p>
+  </div>
+</header>
+
+<div class="tabs no-print">
+  <button class="tab-btn" onclick="switchTab('mines')">&#9935; Mines</button>
+  <button class="tab-btn active" onclick="switchTab('entry')">&#128203; Entry</button>
+  <button class="tab-btn" onclick="switchTab('summary')">&#128202; Summary</button>
+  <button class="tab-btn" onclick="switchTab('bill')">&#129534; Bill</button>
+  <button class="tab-btn" onclick="switchTab('history')">&#128193; Records</button>
+</div>
+
+<!-- ══ MINES PANEL ══ -->
+<div class="tab-panel" id="panel-mines">
+  <div class="card">
+    <div class="card-title">&#9935; Add New Mine / Project</div>
+    <div class="mine-add-row">
+      <input type="text" id="newMineName" placeholder="Enter mine or project name (e.g. Ramgarh Mine, Site A)" onkeydown="if(event.key==='Enter')addMine()">
+      <button class="mine-add-btn" onclick="addMine()">+ Add</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">&#128205; Mines &amp; Projects
+      <span style="margin-left:auto;font-size:10px;font-weight:400;color:var(--text-light);text-transform:none;letter-spacing:0;">Tap a mine to select it for billing</span>
+    </div>
+    <div id="mines-list"></div>
+  </div>
+  <div id="mine-stats-section"></div>
+  <button class="btn btn-primary" onclick="switchTab('entry')">&#8594; Go to Entry</button>
+</div>
+
+<!-- ══ ENTRY PANEL ══ -->
+<div class="tab-panel active" id="panel-entry">
+
+  <div class="card">
+    <div class="card-title">&#127970; Firm &amp; Buyer Information</div>
+    <div id="entry-mine-badge"></div>
+    <div id="entry-no-mine-warning" style="display:none">
+      <div class="no-mine-warning">&#9888; No mine selected. <span onclick="switchTab('mines')" style="color:var(--mine);cursor:pointer;font-weight:700;text-decoration:underline;">Select a mine first</span></div>
+    </div>
+    <div class="form-group" style="margin-bottom:12px;">
+      <label>Firm / Company Name (shown on bill)</label>
+      <input type="text" id="firmName" placeholder="e.g. Anand Stones Suppliers">
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Buyer Name</label><input type="text" id="buyerName" placeholder="Enter buyer name"></div>
+      <div class="form-group"><label>Buyer Phone</label><input type="tel" id="buyerPhone" placeholder="e.g. 9876543210"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>Vehicle Number</label><input type="text" id="vehicleNo" placeholder="e.g. RJ-14-GA-1234" style="text-transform:uppercase"></div>
+      <div class="form-group"><label>Bill Date</label><input type="date" id="billDate"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">&#129704; Items &amp; Measurements
+      <span style="margin-left:auto;font-size:10px;font-weight:400;color:var(--text-light);text-transform:none;letter-spacing:0;">Each item has its own formula &amp; rate</span>
+    </div>
+    <div id="items-container"></div>
+    <button class="btn btn-add" onclick="addItem()">+ Add Another Item</button>
+    <div class="grand-total-box">
+      <div class="grand-total-label">Total Bill Amount</div>
+      <div class="grand-total-value" id="grandTotalAmt">&#8377; 0.00</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">&#128176; Payment Details</div>
+    <div class="form-grid-5">
+      <div class="form-group"><label>Advance (&#8377;)</label><input type="number" id="advance" placeholder="0" oninput="recalcPayment()"></div>
+      <div class="form-group"><label>Paid (&#8377;)</label><input type="number" id="paid" placeholder="0" oninput="recalcPayment()"></div>
+      <div class="form-group roundoff-row">
+        <label>Round Off (&#8377;)</label>
+        <input type="number" id="roundoff" placeholder="0.00" step="0.01" oninput="recalcPayment()">
+      </div>
+      <div class="form-group"><label>Net Payable (&#8377;)</label><input type="number" id="netPayable" placeholder="Auto" readonly></div>
+      <div class="form-group"><label>Remaining (&#8377;)</label><input type="number" id="remaining" placeholder="Auto" readonly></div>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text-light);background:var(--stone-pale);border-radius:8px;padding:7px 11px;">
+      &#128161; Round Off: positive value adds (+), negative value deducts (-) from total amount
+    </div>
+  </div>
+
+  <button class="btn btn-primary" onclick="switchTab('summary')">View Summary &#8594;</button>
+</div>
+
+<!-- ══ SUMMARY PANEL ══ -->
+<div class="tab-panel" id="panel-summary">
+  <div class="summary-hero">
+    <div class="summary-hero-label">Total Bill Amount</div>
+    <div class="summary-hero-value" id="s-grandTotal">&#8377; 0.00</div>
+    <div class="summary-hero-sub" id="s-itemCount">0 items</div>
+  </div>
+  <div class="card">
+    <div class="card-title">&#127970; Firm &amp; Buyer Details</div>
+    <div class="summary-row"><span style="color:var(--text-mid)">Mine / Project</span><span style="font-weight:700" id="s-mineName">&#8212;</span></div>
+    <div class="summary-row"><span style="color:var(--text-mid)">Firm Name</span><span style="font-weight:700" id="s-firmName">&#8212;</span></div>
+    <div class="summary-row"><span style="color:var(--text-mid)">Buyer Name</span><span style="font-weight:700" id="s-buyerName">&#8212;</span></div>
+    <div class="summary-row"><span style="color:var(--text-mid)">Vehicle Number</span><span style="font-weight:700" id="s-vehicleNo">&#8212;</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">&#129704; Item Breakdown</div>
+    <div id="s-breakdown"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">&#128176; Payment Summary</div>
+    <div class="summary-row"><span style="color:var(--text-mid)">Sub Total</span><span style="font-weight:700" id="s-subTotal">&#8377;0.00</span></div>
+    <div class="summary-row"><span style="color:var(--text-mid)">Round Off</span><span style="font-weight:700" id="s-roundoff">&#8377;0.00</span></div>
+    <div class="summary-row"><span style="color:var(--text-mid);font-weight:700;font-size:15px">Net Payable</span><span style="font-weight:700;font-size:15px" id="s-netPayable">&#8377;0.00</span></div>
+    <div class="summary-row"><span style="color:var(--success)">Advance Paid</span><span style="font-weight:700;color:var(--success)" id="s-advance">&#8377;0.00</span></div>
+    <div class="summary-row"><span style="color:var(--success)">Amount Paid</span><span style="font-weight:700;color:var(--success)" id="s-paid">&#8377;0.00</span></div>
+    <div class="summary-row" style="margin-top:4px;"><span style="font-weight:700;font-size:15px">Remaining Balance</span><span id="s-remaining">&#8212;</span></div>
+  </div>
+  <button class="btn btn-primary" onclick="switchTab('bill')">Generate Bill &#129534;</button>
+  <button class="btn btn-stone" onclick="switchTab('entry')">&#8592; Back to Entry</button>
+</div>
+
+<!-- ══ BILL PANEL ══ -->
+<div class="tab-panel" id="panel-bill">
+  <div class="no-print" style="margin-bottom:14px;">
+    <button class="btn btn-save" onclick="saveBillAndReset()">Save Bill &amp; Start New Entry</button>
+    <button class="btn btn-print" onclick="printBill()">&#128424; Save as PDF</button>
+    <button class="btn btn-stone" onclick="switchTab('entry')">&#8592; Back to Entry</button>
+  </div>
+  <div id="bill-area">
+    <div class="bill-header">
+      <h2 id="b-firmName">anand stones suppliers</h2>
+
+      <div class="bill-firm">&#129704; SANDSTONE SUPPLY BILL</div>
+      <p>Measurement Receipt</p>
+    </div>
+    <div class="bill-info-grid" id="b-info-grid">
+      <div class="bill-info-item"><div class="bill-info-label">Buyer Name</div><div class="bill-info-value" id="b-buyer">&#8212;</div></div>
+      <div class="bill-info-item ra"><div class="bill-info-label">Vehicle Number</div><div class="bill-info-value" id="b-vehicle">&#8212;</div></div>
+      <div class="bill-info-item" id="b-phone-row" style="display:none"><div class="bill-info-label">Phone</div><div class="bill-info-value" id="b-phone">&#8212;</div></div>
+      <div class="bill-info-item ra" id="b-date-row"><div class="bill-info-label">Bill Date</div><div class="bill-info-value" id="b-date">&#8212;</div></div>
+    </div>
+    <div class="bill-sec-title">Item Details</div>
+    <div style="overflow-x:auto;">
+      <table class="bt">
+        <thead><tr><th>#</th><th>Item</th><th>Details</th><th>Result</th><th>Rate</th><th>Amount (&#8377;)</th></tr></thead>
+        <tbody id="b-rows"></tbody>
+      </table>
+    </div>
+    <div id="b-formula-totals"></div>
+    <div class="bill-subtotal-bar">
+      <span>Sub Total</span><span id="b-subTotal">&#8377; 0.00</span>
+    </div>
+    <div class="bill-amt-section">
+      <div class="bill-amt-row" id="b-roundoff-row"><span class="lbl">Round Off</span><span class="val" id="b-roundoff">&#8377;0.00</span></div>
+      <div class="bill-amt-row"><span class="lbl" style="font-size:14px;font-weight:700;">Net Payable</span><span class="val" style="font-size:14px;" id="b-netPayable">&#8377;0.00</span></div>
+      <div class="bill-amt-row"><span class="lbl" style="color:var(--success)">Advance Paid</span><span class="val" style="color:var(--success)" id="b-advance">- &#8377;0.00</span></div>
+      <div class="bill-amt-row"><span class="lbl" style="color:var(--success)">Amount Paid</span><span class="val" style="color:var(--success)" id="b-paid">- &#8377;0.00</span></div>
+    </div>
+    <div class="bill-remaining-row">
+      <span style="font-size:15px;font-weight:700;">Remaining Balance</span>
+      <span id="b-remaining" style="font-size:16px;font-weight:700;">&#8212;</span>
+    </div>
+    <div class="bill-footer">GhanFeet Bill | <span id="b-footer-date"></span> | <span id="b-footer-firm"></span></div>
+  </div>
+</div>
+
+<!-- ══ HISTORY PANEL ══ -->
+<div class="tab-panel" id="panel-history">
+  <div class="card">
+    <div class="card-title">&#128269; Filter &amp; Search Bills</div>
+    <div class="hist-filter-bar" id="hist-mine-filters"></div>
+    <input type="search" id="searchInput" placeholder="Search by buyer, vehicle, firm, mine..." oninput="renderHistory()">
+
+  </div>
+  <div id="history-list"></div>
+</div>
+
+<!-- EDIT BILL MODAL -->
+<div class="edit-modal-overlay" id="editBillModal">
+  <div class="edit-modal-box">
+    <div class="edit-modal-header">
+      <div class="edit-modal-title">&#9998; Edit Bill</div>
+      <button class="edit-modal-close" onclick="closeEditModal()">&#215;</button>
+    </div>
+    <div class="edit-modal-body">
+      <!-- Live total -->
+      <div class="edit-live-total">
+        <div class="edit-live-label">Net Payable</div>
+        <div class="edit-live-value" id="em-live-total">&#8377; 0.00</div>
+      </div>
+      <!-- Info section -->
+      <div class="edit-section">
+        <div class="edit-section-title">&#127970; Bill Information</div>
+        <div class="form-group" style="margin-bottom:10px;">
+          <label>Firm / Company Name</label>
+          <input type="text" id="em-firmName" placeholder="Firm name" oninput="emRecalc()">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+          <div class="form-group"><label>Buyer Name</label><input type="text" id="em-buyerName" placeholder="Buyer name" oninput="emRecalc()"></div>
+          <div class="form-group"><label>Buyer Phone</label><input type="tel" id="em-buyerPhone" placeholder="e.g. 9876543210" oninput="emRecalc()"></div>
+          <div class="form-group"><label>Vehicle Number</label><input type="text" id="em-vehicleNo" placeholder="Vehicle no." oninput="emRecalc()" style="text-transform:uppercase"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="form-group"><label>Mine / Project</label>
+            <select id="em-mineId" onchange="emRecalc()">
+              <option value="">-- No Mine --</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Bill Date</label><input type="text" id="em-dateStr" placeholder="DD/MM/YYYY" oninput="emRecalc()"></div>
+        </div>
+      </div>
+      <!-- Items section -->
+      <div class="edit-section">
+        <div class="edit-section-title">&#129704; Items &amp; Measurements</div>
+        <div id="em-items-container"></div>
+        <button class="edit-add-item-btn" onclick="emAddItem()">+ Add Item</button>
+      </div>
+      <!-- Payment section -->
+      <div class="edit-section">
+        <div class="edit-section-title">&#128176; Payment Details</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+          <div class="form-group"><label>Advance (&#8377;)</label><input type="number" id="em-advance" placeholder="0" oninput="emRecalc()"></div>
+          <div class="form-group"><label>Amount Paid (&#8377;)</label><input type="number" id="em-paid" placeholder="0" oninput="emRecalc()"></div>
+          <div class="form-group"><label>Round Off (&#8377;)</label><input type="number" id="em-roundoff" placeholder="0" step="0.01" oninput="emRecalc()"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+          <div class="form-group"><label>Net Payable (&#8377;)</label><input type="number" id="em-netPayable" readonly></div>
+          <div class="form-group"><label>Remaining (&#8377;)</label><input type="number" id="em-remaining" readonly></div>
+        </div>
+      </div>
+    </div>
+    <div class="edit-modal-footer">
+      <button class="edit-save-btn" onclick="saveEditedBill()">&#9989; Save Changes</button>
+      <button class="edit-cancel-btn" onclick="closeEditModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrapper -->
+
+<!-- DELETE MODAL -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-box">
+    <h3>&#128465; Delete Bill?</h3>
+    <p>Bill for <strong id="del-modal-name"></strong> will be permanently deleted. This cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="modal-confirm" style="background:var(--danger);" onclick="confirmDelete()">Yes, Delete</button>
+      <button class="modal-cancel" onclick="closeDeleteModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD MODAL -->
+<div class="modal-overlay" id="passModal">
+  <div class="modal-box">
+    <h3>&#128274; Enter Password</h3>
+    <p id="pass-modal-msg">Enter password to continue.</p>
+    <input type="password" id="passInput" placeholder="Enter password" style="margin:10px 0 4px;width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:18px;letter-spacing:4px;text-align:center;font-family:Lora,serif;" oninput="passModalInput()" onkeydown="if(event.key==='Enter')passModalConfirm()">
+    <div id="pass-error" style="color:var(--danger);font-size:12px;margin-top:4px;min-height:16px;text-align:center;"></div>
+    <div class="modal-actions" style="margin-top:8px;">
+      <button class="modal-confirm" onclick="passModalConfirm()">&#10003; Confirm</button>
+      <button class="modal-cancel" onclick="passModalClose()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MINE MODAL -->
+<div class="modal-overlay" id="deleteMineModal">
+  <div class="modal-box">
+    <h3>&#128465; Delete Mine?</h3>
+    <p>Mine "<strong id="del-mine-modal-name"></strong>" will be removed. Saved bills linked to it will remain. This cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="modal-confirm" style="background:var(--danger);" onclick="confirmDeleteMine()">Yes, Delete</button>
+      <button class="modal-cancel" onclick="closeDeleteMineModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- SAVE MODAL -->
+<div class="modal-overlay" id="saveModal">
+  <div class="modal-box">
+    <h3>&#9989; Save Bill?</h3>
+    <p>Bill for <strong id="modal-buyer-name"></strong> will be saved in Records and all entries will reset. Confirm?</p>
+    <div class="modal-actions">
+      <button class="modal-confirm" onclick="confirmSave()">Yes, Save</button>
+      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW MODAL -->
+<div class="modal-overlay" id="viewBillModal">
+  <div class="modal-box" style="max-width:700px;width:95%;max-height:92vh;overflow-y:auto;padding:0;">
+    <div id="viewBillContent"></div>
+    <div style="padding:14px;">
+      <button style="width:100%;padding:11px;border:none;border-radius:10px;font-family:'Lora',serif;font-size:14px;font-weight:700;cursor:pointer;background:var(--stone-pale);color:var(--text);" onclick="closeViewModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// ── FORMULA DEFINITIONS ──
+var F = {
+  1: { name:'Muksar',       short:'Muksar',    unit:'GF',    rateLabel:'Rate/GF',
+       fields:['qty','length','breadth','height'], labels:['Qty','Length','Breadth','Height'],
+       calc: function(s){ return (pf(s.qty)||1)*pf(s.length)*pf(s.breadth)*pf(s.height)/12; },
+       detailStr: function(s){ return (s.qty||1)+' x '+s.length+' x '+s.breadth+' x '+s.height+' / 12'; },
+       resultStr: function(v){ return v.toFixed(3)+' GF'; }
+  },
+  2: { name:'Tukda/Patiya',  short:'Tukda/Patiya',     unit:'SqFt',  rateLabel:'Rate/SqFt',
+       fields:['qty','length','breadth'], labels:['Qty','Length','Breadth'],
+       calc: function(s){ return (pf(s.qty)||1)*pf(s.length)*pf(s.breadth); },
+       detailStr: function(s){ return (s.qty||1)+' x '+s.length+' x '+s.breadth; },
+       resultStr: function(v){ return v.toFixed(3)+' SqFt'; }
+  },
+  3: { name:'Dhalde',       short:'Dhalde',    unit:'Pcs',   rateLabel:'Rate/Dhalde',
+       fields:['qty'], labels:['No. of Dhalde'],
+       calc: function(s){ return pf(s.qty); },
+       detailStr: function(s){ return s.qty+' Dhalde'; },
+       resultStr: function(v){ return v+' Pcs'; }
+  },
+  4: { name:'Muksar in Ton', short:'Muksar in Ton',       unit:'Ton',   rateLabel:'Rate/Ton',
+       fields:['qty'], labels:['Qty (Ton)'],
+       calc: function(s){ return pf(s.qty); },
+       detailStr: function(s){ return s.qty+' Ton'; },
+       resultStr: function(v){ return v.toFixed(3)+' Ton'; }
+  }
+};
+
+function pf(v){ return parseFloat(v)||0; }
+function fmt(n){ return parseFloat(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function fmtRs(n){ return '&#8377;'+fmt(n); }
+
+// ── STATE ──
+var itemId=0, items=[], savedBills=[], billCounter=1;
+var mines=[], activeMineId=null;
+
+// ── STORAGE ──
+function loadStorage(){
+  try{
+    var sb=localStorage.getItem('ss_bills'); if(sb) savedBills=JSON.parse(sb);
+    var bc=localStorage.getItem('ss_counter'); if(bc) billCounter=parseInt(bc);
+    var sm=localStorage.getItem('ss_mines'); if(sm) mines=JSON.parse(sm);
+    var am=localStorage.getItem('ss_active_mine'); if(am) activeMineId=am;
+  }catch(e){
+    try{
+      var sb=sessionStorage.getItem('ss_bills'); if(sb) savedBills=JSON.parse(sb);
+      var bc=sessionStorage.getItem('ss_counter'); if(bc) billCounter=parseInt(bc);
+      var sm=sessionStorage.getItem('ss_mines'); if(sm) mines=JSON.parse(sm);
+      var am=sessionStorage.getItem('ss_active_mine'); if(am) activeMineId=am;
+    }catch(e2){}
+  }
+}
+function saveStorage(){
+  var bs=JSON.stringify(savedBills), cs=String(billCounter), ms=JSON.stringify(mines), ok=false;
+  try{
+    localStorage.setItem('ss_bills',bs);
+    localStorage.setItem('ss_counter',cs);
+    localStorage.setItem('ss_mines',ms);
+    if(activeMineId) localStorage.setItem('ss_active_mine',activeMineId);
+    else localStorage.removeItem('ss_active_mine');
+    ok=true;
+  }catch(e){}
+  if(!ok){
+    try{
+      sessionStorage.setItem('ss_bills',bs);
+      sessionStorage.setItem('ss_counter',cs);
+      sessionStorage.setItem('ss_mines',ms);
+      if(activeMineId) sessionStorage.setItem('ss_active_mine',activeMineId);
+    }catch(e){}
+  }
+}
+
+// ── MINES ──
+function addMine(){
+  var inp=document.getElementById('newMineName');
+  var name=(inp.value||'').trim();
+  if(!name){ showToast('Please enter a mine name!'); return; }
+  if(mines.find(function(m){return m.name.toLowerCase()===name.toLowerCase();})){
+    showToast('Mine already exists!'); return;
+  }
+  var id='mine_'+Date.now();
+  mines.push({id:id, name:name, createdAt:new Date().toISOString()});
+  inp.value='';
+  if(!activeMineId){ activeMineId=id; }
+  saveStorage();
+  renderMines();
+  updateEntryMineBadge();
+  showToast('Mine "'+name+'" added!');
+}
+
+function selectMine(id){
+  activeMineId=id;
+  saveStorage();
+  renderMines();
+  updateEntryMineBadge();
+  showToast('Mine selected: '+getMine(id).name);
+}
+
+function getMine(id){
+  return mines.find(function(m){return m.id===id;})||null;
+}
+
+function getActiveMine(){
+  return activeMineId?getMine(activeMineId):null;
+}
+
+var _deleteMineId=null;
+function promptDeleteMine(id){
+  askPassword('Password daalo — mine delete hoga', function(){
+    _deleteMineId=id;
+    var m=getMine(id);
+    document.getElementById('del-mine-modal-name').textContent=m?m.name:'this mine';
+    document.getElementById('deleteMineModal').classList.add('show');
+  });
+}
+function confirmDeleteMine(){
+  if(_deleteMineId){
+    // Delete all bills linked to this mine
+    var billsBefore = savedBills.length;
+    savedBills = savedBills.filter(function(b){ return b.mineId !== _deleteMineId; });
+    var deletedBills = billsBefore - savedBills.length;
+    mines=mines.filter(function(m){return m.id!==_deleteMineId;});
+    if(activeMineId===_deleteMineId){
+      activeMineId=mines.length?mines[0].id:null;
+    }
+    saveStorage(); renderMines(); updateEntryMineBadge(); renderHistory();
+    showToast('Mine deleted. ' + (deletedBills>0 ? deletedBills+' bills bhi delete hue.' : ''));
+    _deleteMineId=null;
+  }
+  document.getElementById('deleteMineModal').classList.remove('show');
+}
+function closeDeleteMineModal(){ _deleteMineId=null; document.getElementById('deleteMineModal').classList.remove('show'); }
+
+function renderMines(){
+  var list=document.getElementById('mines-list');
+  if(!mines.length){
+    list.innerHTML='<div class="empty-hist"><div class="emp-icon">&#9935;</div><p>No mines added yet. Add your first mine above.</p></div>';
+    document.getElementById('mine-stats-section').innerHTML='';
+    return;
+  }
+  list.innerHTML='';
+  mines.forEach(function(m){
+    var billsForMine=savedBills.filter(function(b){return b.mineId===m.id;});
+    var totalAmt=billsForMine.reduce(function(s,b){return s+(b.netPayable||0);},0);
+    var isActive=m.id===activeMineId;
+    var card=document.createElement('div');
+    card.className='mine-card'+(isActive?' selected':'');
+    card.innerHTML=
+      '<div class="mine-icon">&#9935;</div>'
+      +'<div class="mine-info" onclick="selectMine(\''+m.id+'\')">'
+        +'<div class="mine-name">'+m.name+(isActive?' &nbsp;<span style="font-size:10px;background:#5B2D8E;color:#fff;padding:2px 8px;border-radius:10px;vertical-align:middle;">ACTIVE</span>':'')+'</div>'
+        +'<div class="mine-meta">Created: '+new Date(m.createdAt).toLocaleDateString('en-IN')+'</div>'
+      +'</div>'
+      +'<div class="mine-stats" onclick="selectMine(\''+m.id+'\')">'
+        +'<div class="mine-bill-count">'+billsForMine.length+' bill'+(billsForMine.length!==1?'s':'')+'</div>'
+        +'<div class="mine-total-amt">Rs '+fmt(totalAmt)+'</div>'
+      +'</div>'
+      +(isActive?'<div class="mine-sel-check">&#9989;</div>':'')
+      +'<button class="mine-del-btn" onclick="event.stopPropagation();promptDeleteMine(\''+m.id+'\')">&#215;</button>';
+    list.appendChild(card);
+  });
+
+  // Stats section
+  if(activeMineId){
+    var am=getActiveMine();
+    if(am){
+      var mineBills=savedBills.filter(function(b){return b.mineId===activeMineId;});
+      var totalNet=mineBills.reduce(function(s,b){return s+(b.netPayable||0);},0);
+      var totalRem=mineBills.reduce(function(s,b){return s+(b.remaining>0?b.remaining:0);},0);
+      var statsEl=document.getElementById('mine-stats-section');
+      statsEl.innerHTML='<div class="mine-summary-card">'
+        +'<div class="mine-summary-title">&#128200; '+am.name+' — Summary</div>'
+        +'<div class="mine-summary-grid">'
+          +'<div class="mine-sum-item"><div class="mine-sum-label">Total Bills</div><div class="mine-sum-value">'+mineBills.length+'</div></div>'
+          +'<div class="mine-sum-item"><div class="mine-sum-label">Total Amount</div><div class="mine-sum-value" style="font-size:13px;">Rs '+fmt(totalNet)+'</div></div>'
+          +'<div class="mine-sum-item"><div class="mine-sum-label">Outstanding</div><div class="mine-sum-value" style="font-size:13px;color:var(--danger)">Rs '+fmt(totalRem)+'</div></div>'
+        +'</div>'
+        +'</div>';
+    }
+  } else {
+    document.getElementById('mine-stats-section').innerHTML='';
+  }
+}
+
+function updateEntryMineBadge(){
+  var badge=document.getElementById('entry-mine-badge');
+  var warning=document.getElementById('entry-no-mine-warning');
+  var am=getActiveMine();
+  if(am){
+    badge.innerHTML='<div class="mine-active-badge"><div class="dot"></div>Mine: '+am.name+' &nbsp;<span onclick="switchTab(\'mines\')" style="font-size:10px;opacity:.7;cursor:pointer;">(change)</span></div>';
+    warning.style.display='none';
+  } else {
+    badge.innerHTML='';
+    warning.style.display='block';
+  }
+}
+
+// ── ITEMS ──
+function addItem(){
+  var id=++itemId;
+  items.push({id:id, formulaId:1, qty:'', length:'', breadth:'', height:'', rate:''});
+  renderItems(); recalcPayment();
+}
+
+function removeItem(id){
+  if(items.length<=1) return;
+  items=items.filter(function(i){return i.id!==id;});
+  renderItems(); recalcPayment();
+}
+
+function updateItem(id, field, value){
+  var it=items.find(function(i){return i.id===id;});
+  if(it){ it[field]=value; recalcPayment(); refreshItemBadge(id); }
+}
+
+function changeFormula(id, fid){
+  var it=items.find(function(i){return i.id===id;});
+  if(!it) return;
+  it.formulaId=parseInt(fid);
+  it.qty=''; it.length=''; it.breadth=''; it.height='';
+  renderItems(); recalcPayment();
+}
+
+function refreshItemBadge(id){
+  var it=items.find(function(i){return i.id===id;});
+  if(!it) return;
+  var f=F[it.formulaId];
+  var val=f.calc(it);
+  var rate=pf(it.rate);
+  var amt=val*rate;
+  var rb=document.getElementById('res-'+id);
+  var ab=document.getElementById('amt-'+id);
+  if(rb) rb.textContent=f.resultStr(val);
+  if(ab) ab.textContent='= Rs '+Math.round(amt).toLocaleString('en-IN');
+}
+
+function renderItems(){
+  var c=document.getElementById('items-container'); c.innerHTML='';
+  items.forEach(function(it, idx){
+    var f=F[it.formulaId];
+    var val=f.calc(it), rate=pf(it.rate), amt=val*rate;
+    var div=document.createElement('div'); div.className='item-row';
+    var topRow='<div class="item-formula-row">'
+      +'<div class="form-group"><label>Formula Type</label>'
+      +'<select class="formula-mini-select" onchange="changeFormula('+it.id+',this.value)">'
+      +[1,2,3,4].map(function(n){
+          return '<option value="'+n+'"'+(it.formulaId===n?' selected':'')+'>F'+n+': '+F[n].name+'</option>';
+        }).join('')
+      +'</select></div>'
+      +'<div class="form-group"><label>'+f.rateLabel+' (Rs)</label>'
+      +'<input type="number" placeholder="0" value="'+(it.rate||'')+'" oninput="updateItem('+it.id+',\'rate\',this.value)">'
+      +'</div></div>';
+    var nc=f.fields.length;
+    var gs=nc===1?'grid-template-columns:1fr':nc===2?'grid-template-columns:1fr 1fr':nc===3?'grid-template-columns:1fr 1fr 1fr':'grid-template-columns:1fr 1fr 1fr 1fr';
+    var fieldsHTML='<div style="display:grid;'+gs+';gap:9px;">';
+    f.fields.forEach(function(field, fi){
+      fieldsHTML+='<div class="form-group"><label>'+f.labels[fi]+'</label>'
+        +'<input type="number" placeholder="0" value="'+(it[field]||'')+'" oninput="updateItem('+it.id+',\''+field+'\',this.value)">'
+        +'</div>';
+    });
+    fieldsHTML+='</div>';
+    div.innerHTML=
+      '<div class="item-row-header">'
+        +'<span class="item-num-badge">Item #'+(idx+1)+'</span>'
+        +'<div class="item-right-controls">'
+          +'<span class="item-result-badge" id="res-'+it.id+'">'+f.resultStr(val)+'</span>'
+          +'<span class="item-amt-badge" id="amt-'+it.id+'">'+(rate>0?'= Rs '+Math.round(amt).toLocaleString('en-IN'):'Rs --')+'</span>'
+          +(items.length>1?'<button class="del-btn" onclick="removeItem('+it.id+')">&times;</button>':'')
+        +'</div>'
+      +'</div>'
+      +topRow+fieldsHTML;
+    c.appendChild(div);
+  });
+}
+
+// ── TOTALS ──
+function getSubTotal(){
+  return items.reduce(function(sum, it){
+    var f=F[it.formulaId]; return sum + f.calc(it)*pf(it.rate);
+  }, 0);
+}
+
+function recalcPayment(){
+  items.forEach(function(it){ refreshItemBadge(it.id); });
+  var sub=getSubTotal();
+  var ro=pf(document.getElementById('roundoff').value);
+  var net=sub+ro;
+  var adv=pf(document.getElementById('advance').value);
+  var paid=pf(document.getElementById('paid').value);
+  var rem=net-adv-paid;
+  document.getElementById('netPayable').value=net.toFixed(2);
+  document.getElementById('remaining').value=rem>0?rem.toFixed(2):'0.00';
+  document.getElementById('grandTotalAmt').innerHTML='&#8377; '+fmt(net);
+}
+
+// ── SUMMARY ──
+function populateSummary(){
+  var sub=getSubTotal();
+  var ro=pf(document.getElementById('roundoff').value);
+  var net=sub+ro;
+  var adv=pf(document.getElementById('advance').value);
+  var paid=pf(document.getElementById('paid').value);
+  var rem=net-adv-paid;
+  var am=getActiveMine();
+
+  document.getElementById('s-grandTotal').textContent='Rs '+fmt(net);
+  document.getElementById('s-itemCount').textContent=items.length+' item'+(items.length!==1?'s':'');
+  document.getElementById('s-mineName').textContent=am?am.name:'(No mine selected)';
+  document.getElementById('s-firmName').textContent=document.getElementById('firmName').value||'--';
+  document.getElementById('s-buyerName').textContent=document.getElementById('buyerName').value||'--';
+  document.getElementById('s-vehicleNo').textContent=document.getElementById('vehicleNo').value.toUpperCase()||'--';
+  document.getElementById('s-subTotal').textContent='Rs '+fmt(sub);
+  document.getElementById('s-roundoff').textContent=(ro>=0?'+':'')+fmt(ro)+' Rs';
+  document.getElementById('s-netPayable').textContent='Rs '+fmt(net);
+  document.getElementById('s-advance').textContent='Rs '+fmt(adv);
+  document.getElementById('s-paid').textContent='Rs '+fmt(paid);
+  var re=document.getElementById('s-remaining');
+  re.innerHTML=rem>0?'<span class="badge-remaining">Rs '+fmt(rem)+'</span>':'<span class="badge-paid">FULLY PAID</span>';
+
+  var bd=document.getElementById('s-breakdown'); bd.innerHTML='';
+  items.forEach(function(it, idx){
+    var f=F[it.formulaId], val=f.calc(it), rate=pf(it.rate), amt=val*rate;
+    var d=document.createElement('div'); d.className='breakdown-item';
+    d.innerHTML='<div class="breakdown-left">'
+      +'<div class="breakdown-item-num">Item #'+(idx+1)+' &mdash; '+f.name+'</div>'
+      +'<div class="breakdown-item-detail">'+f.detailStr(it)+'<br>Rate: Rs '+fmt(rate)+' / '+f.unit+'</div>'
+      +'</div>'
+      +'<div class="breakdown-right">'
+      +'<div class="breakdown-result">'+f.resultStr(val)+'</div>'
+      +'<div class="breakdown-amt">Rs '+fmt(amt)+'</div>'
+      +'</div>';
+    bd.appendChild(d);
+  });
+}
+
+// ── BILL DATA ──
+function getBillData(){
+  var sub=getSubTotal();
+  var ro=pf(document.getElementById('roundoff').value);
+  var net=sub+ro;
+  var adv=pf(document.getElementById('advance').value);
+  var paid=pf(document.getElementById('paid').value);
+  var rem=net-adv-paid;
+  // Custom date or today
+  var customDate = document.getElementById('billDate').value;
+  var ds;
+  if(customDate){
+    var parts = customDate.split('-');
+    ds = parts[2]+'/'+parts[1]+'/'+parts[0];
+  } else {
+    var now=new Date();
+    ds=now.toLocaleDateString('en-IN',{day:'2-digit',month:'2-digit',year:'numeric'});
+  }
+  var am=getActiveMine();
+  return{
+    firmName: document.getElementById('firmName').value||'',
+    buyerName: document.getElementById('buyerName').value||'--',
+    buyerPhone: document.getElementById('buyerPhone').value||'',
+    vehicleNo: document.getElementById('vehicleNo').value.toUpperCase()||'--',
+    subTotal:sub, roundoff:ro, netPayable:net, advance:adv, paid:paid, remaining:rem,
+    dateStr:ds, items:JSON.parse(JSON.stringify(items)),
+    billNo:'BILL-'+String(billCounter).padStart(4,'0'),
+    mineId: activeMineId||null,
+    mineName: am?am.name:''
+  };
+}
+
+// ── POPULATE BILL ──
+function populateBill(data){
+  document.getElementById('b-firmName').textContent=data.firmName||'anand stones suppliers';
+  document.getElementById('b-date').textContent=data.dateStr;
+  var billNoEl=document.getElementById('b-billNo'); if(billNoEl) billNoEl.textContent=data.billNo;
+  document.getElementById('b-buyer').textContent=data.buyerName;
+  var phoneEl=document.getElementById('b-phone');
+  var phoneRow=document.getElementById('b-phone-row');
+  var dateRow=document.getElementById('b-date-row');
+  if(data.buyerPhone){
+    if(phoneEl) phoneEl.textContent=data.buyerPhone;
+    if(phoneRow) phoneRow.style.display='';
+    if(dateRow){ dateRow.className='bill-info-item ra'; }
+  } else {
+    if(phoneRow) phoneRow.style.display='none';
+    // No phone: date goes on left side naturally
+    if(dateRow){ dateRow.className='bill-info-item'; }
+  }
+  document.getElementById('b-vehicle').textContent=data.vehicleNo;
+  var subT=data.subTotal||0, ro=data.roundoff||0, netP=(data.netPayable!=null)?data.netPayable:subT+ro;
+  document.getElementById('b-subTotal').textContent='Rs '+fmt(subT);
+  var roRow=document.getElementById('b-roundoff-row');
+  var roEl=document.getElementById('b-roundoff');
+  if(ro===0){ if(roRow)roRow.style.display='none'; }
+  else{ if(roRow)roRow.style.display=''; if(roEl)roEl.textContent=(ro>0?'+ ':'- ')+'Rs '+fmt(Math.abs(ro)); }
+  document.getElementById('b-netPayable').textContent='Rs '+fmt(netP);
+  document.getElementById('b-advance').textContent='- Rs '+fmt(data.advance||0);
+  document.getElementById('b-paid').textContent='- Rs '+fmt(data.paid||0);
+  document.getElementById('b-footer-date').textContent=data.dateStr||'';
+  document.getElementById('b-footer-firm').textContent=data.firmName||'Sandstone Supply';
+  var re=document.getElementById('b-remaining');
+  if((data.remaining||0)>0){ re.textContent='Rs '+fmt(data.remaining); re.style.color='var(--danger)'; }
+  else{ re.textContent='PAID'; re.style.color='var(--success)'; }
+  var tbody=document.getElementById('b-rows'); tbody.innerHTML='';
+  var ftotals={};
+  (data.items||[]).forEach(function(it,itemIdx){
+    var fid=it.formulaId||1, f=F[fid]||F[1];
+    var val=0; try{val=f.calc(it);}catch(e){}
+    var rate=pf(it.rate), amt=val*rate;
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td style="font-weight:700;color:#8C6E50">'+(itemIdx+1)+'</td>'
+      +'<td>'+f.short+'</td>'
+      +'<td style="text-align:left;font-size:11px;color:#5A3A18">'+f.detailStr(it)+'</td>'
+      +'<td class="rc">'+f.resultStr(val)+'</td>'
+      +'<td>Rs '+fmt(rate)+'/'+f.unit+'</td>'
+      +'<td class="ac">Rs '+Math.round(amt).toLocaleString('en-IN')+'</td>';
+    tbody.appendChild(tr);
+    if(!ftotals[fid]) ftotals[fid]={fid:fid,totalVal:0,totalAmt:0};
+    ftotals[fid].totalVal+=val; ftotals[fid].totalAmt+=amt;
+  });
+  var ftDiv=document.getElementById('b-formula-totals');
+  if(ftDiv){
+    var keys=Object.keys(ftotals);
+    if(keys.length>0){
+      var html='<div class="bill-formula-totals-title">Measurement Summary</div><div class="bill-formula-totals">';
+      keys.forEach(function(fid){
+        var f=F[fid]||F[1], ft=ftotals[fid];
+        html+='<div class="bill-formula-total-row">'
+          +'<div class="bft-label"><span class="bft-badge">'+f.name+'</span> Total '+f.unit+'</div>'
+          +'<div class="bft-values">'
+          +'<span class="bft-result">'+f.resultStr(ft.totalVal)+'</span>'
+          +'<span class="bft-amt">Rs '+fmt(ft.totalAmt)+'</span>'
+          +'</div></div>';
+      });
+      html+='</div>';
+      ftDiv.innerHTML=html;
+    } else { ftDiv.innerHTML=''; }
+  }
+}
+
+// ── SAVE & RESET ──
+function saveBillAndReset(){
+  document.getElementById('modal-buyer-name').textContent=document.getElementById('buyerName').value.trim()||'(No Name)';
+  document.getElementById('saveModal').classList.add('show');
+}
+function closeModal(){ document.getElementById('saveModal').classList.remove('show'); }
+function confirmSave(){
+  closeModal();
+  var data=getBillData(); data.savedAt=new Date().toISOString();
+  savedBills.unshift(data); billCounter++; saveStorage();
+  items=[]; itemId=0;
+  ['firmName','buyerName','buyerPhone','vehicleNo','billDate','advance','paid','roundoff','netPayable','remaining'].forEach(function(id){ document.getElementById(id).value=''; });
+  // Reset date to today
+  (function(){ var d=new Date(); var el=document.getElementById('billDate'); if(el){ el.value=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); } })();
+  addItem(); renderMines(); switchTab('history');
+  showToast('✅ Bill saved!');
+}
+
+// ── HISTORY ──
+var histMineFilter='all';
+function renderHistory(){
+  // Build mine filter chips
+  var filterBar=document.getElementById('hist-mine-filters');
+  filterBar.innerHTML='';
+  var allChip=document.createElement('button');
+  allChip.className='hist-mine-filter'+(histMineFilter==='all'?' active':'');
+  allChip.textContent='All Mines';
+  allChip.onclick=function(){ histMineFilter='all'; renderHistory(); };
+  filterBar.appendChild(allChip);
+  mines.forEach(function(m){
+    var cnt=savedBills.filter(function(b){return b.mineId===m.id;}).length;
+    var chip=document.createElement('button');
+    chip.className='hist-mine-filter'+(histMineFilter===m.id?' active':'');
+    chip.textContent=m.name+' ('+cnt+')';
+    chip.onclick=function(){ histMineFilter=m.id; renderHistory(); };
+    filterBar.appendChild(chip);
+  });
+  // Also add "No Mine" chip if any bills have no mine
+  var noMineBills=savedBills.filter(function(b){return !b.mineId;}).length;
+  if(noMineBills>0){
+    var nmChip=document.createElement('button');
+    nmChip.className='hist-mine-filter'+(histMineFilter==='none'?' active':'');
+    nmChip.textContent='No Mine ('+noMineBills+')';
+    nmChip.onclick=function(){ histMineFilter='none'; renderHistory(); };
+    filterBar.appendChild(nmChip);
+  }
+
+  var q=(document.getElementById('searchInput').value||'').toLowerCase().trim();
+  var list=document.getElementById('history-list');
+  var bills=savedBills.filter(function(b){
+    if(histMineFilter==='all') return true;
+    if(histMineFilter==='none') return !b.mineId;
+    return b.mineId===histMineFilter;
+  });
+  if(q) bills=bills.filter(function(b){
+    return (b.buyerName||'').toLowerCase().includes(q)||(b.vehicleNo||'').toLowerCase().includes(q)||(b.firmName||'').toLowerCase().includes(q)||(b.mineName||'').toLowerCase().includes(q)||(b.dateStr||'').toLowerCase().includes(q);
+  });
+
+  if(!bills.length){ list.innerHTML='<div class="empty-hist"><div class="emp-icon">&#128194;</div><p>'+(q||histMineFilter!=='all'?'No bill found.':'No bills saved yet.')+'</p></div>'; return; }
+  list.innerHTML='';
+  bills.forEach(function(bill){
+    var billIdx=savedBills.indexOf(bill);
+    var card=document.createElement('div'); card.className='bill-card-hist';
+    var rc=bill.remaining>0?'var(--danger)':'var(--success)';
+    var rt=bill.remaining>0?'Balance: Rs '+fmt(bill.remaining):'Fully Paid';
+    var _fnames=(bill.items||[]).map(function(it){return F[it.formulaId||1].name;});
+    var _seen={};var _uniq=[];_fnames.forEach(function(n){if(!_seen[n]){_seen[n]=1;_uniq.push(n);}});
+    var formulaNames=_uniq.join(', ');
+    card.innerHTML='<div class="bch-top"><div>'
+      +'<div class="bch-buyer">'+bill.buyerName+'</div>'
+      +(bill.firmName?'<div class="bch-sub" style="color:var(--stone)">'+bill.firmName+'</div>':'')
+      +'<div class="bch-sub">'+bill.vehicleNo+'</div>'
+      +(bill.buyerPhone?'<div class="bch-sub">📞 '+bill.buyerPhone+'</div>':'')
+      +'<div class="bch-sub">'+bill.dateStr+' | '+bill.billNo+'</div>'
+      +'<div class="bch-sub" style="color:var(--primary)">'+formulaNames+'</div>'
+      +'</div><div style="text-align:right">'
+      +'<div class="bch-amt">Rs '+fmt(bill.netPayable||bill.totalAmt||0)+'</div>'
+      +'<div class="bch-detail">'+(bill.items||[]).length+' item(s)</div>'
+      +'<div class="bch-rem" style="color:'+rc+'">'+rt+'</div>'
+      +'</div></div>'
+      +'<div class="bch-actions"><button class="bch-btn bch-view" onclick="viewBill('+billIdx+')">View</button>'
+      +'<button class="bch-btn bch-edit" onclick="editBill('+billIdx+')">&#9998; Edit</button>'
+      +'<button class="bch-btn bch-pdf" onclick="downloadBillPdf('+billIdx+')">&#128424; PDF</button>'
+      +'<button class="bch-btn bch-delete" onclick="deleteBill('+billIdx+')">Delete</button></div>';
+    list.appendChild(card);
+  });
+}
+
+// ── PASSWORD PROTECTION ──
+var APP_PASS = '0557';
+var _passAction = null;
+
+function askPassword(msg, onSuccess){
+  _passAction = onSuccess;
+  document.getElementById('pass-modal-msg').textContent = msg;
+  document.getElementById('passInput').value = '';
+  document.getElementById('pass-error').textContent = '';
+  document.getElementById('passModal').classList.add('show');
+  setTimeout(function(){ document.getElementById('passInput').focus(); }, 200);
+}
+function passModalInput(){
+  document.getElementById('pass-error').textContent = '';
+}
+function passModalConfirm(){
+  var entered = document.getElementById('passInput').value;
+  if(entered === APP_PASS){
+    document.getElementById('passModal').classList.remove('show');
+    document.getElementById('pass-error').textContent = '';
+    if(_passAction){ _passAction(); _passAction = null; }
+  } else {
+    document.getElementById('pass-error').textContent = '❌ Wrong password!';
+    document.getElementById('passInput').value = '';
+    document.getElementById('passInput').focus();
+  }
+}
+function passModalClose(){
+  _passAction = null;
+  document.getElementById('passInput').value = '';
+  document.getElementById('pass-error').textContent = '';
+  document.getElementById('passModal').classList.remove('show');
+}
+
+var _deleteIdx=-1;
+function deleteBill(idx){
+  askPassword('Password daalo — bill delete hoga', function(){
+    _deleteIdx=idx;
+    var bill=savedBills[idx];
+    document.getElementById('del-modal-name').textContent=bill?bill.buyerName||'this bill':'this bill';
+    document.getElementById('deleteModal').classList.add('show');
+  });
+}
+function confirmDelete(){
+  if(_deleteIdx>=0){ savedBills.splice(_deleteIdx,1); saveStorage(); renderHistory(); renderMines(); _deleteIdx=-1; }
+  document.getElementById('deleteModal').classList.remove('show');
+}
+function closeDeleteModal(){ _deleteIdx=-1; document.getElementById('deleteModal').classList.remove('show'); }
+
+function viewBill(idx){
+  var data=savedBills[idx], firm=data.firmName;
+  var rows='';
+  var vft={};
+  (data.items||[]).forEach(function(it,i){
+    var fid=it.formulaId||1, f=F[fid]||F[1];
+    var val=0; try{val=f.calc(it);}catch(e){}
+    var rate=pf(it.rate), amt=val*rate;
+    rows+='<tr style="background:'+(i%2===0?'transparent':'#fef9f2')+'">'
+      +'<td style="padding:7px 10px;font-weight:700;color:#8C6E50">'+(i+1)+'</td>'
+      +'<td style="padding:7px 10px;font-size:11px;color:#B5702A;font-weight:700;">'+f.name+'</td>'
+      +'<td style="padding:7px 10px;font-size:11px;color:#5A3A18;text-align:left;">'+f.detailStr(it)+'</td>'
+      +'<td style="padding:7px 10px;text-align:right;font-weight:700;color:#2C4F0F;">'+f.resultStr(val)+'</td>'
+      +'<td style="padding:7px 10px;text-align:center;">Rs '+fmt(rate)+'/'+f.unit+'</td>'
+      +'<td style="padding:7px 10px;text-align:right;font-weight:700;">Rs '+Math.round(amt).toLocaleString('en-IN')+'</td>'
+      +'</tr>';
+    if(!vft[fid]) vft[fid]={totalVal:0,totalAmt:0};
+    vft[fid].totalVal+=val; vft[fid].totalAmt+=amt;
+  });
+  var vFtHTML='';
+  var vftKeys=Object.keys(vft);
+  if(vftKeys.length>0){
+    vFtHTML='<div style="padding:6px 16px 3px;font-size:9px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;background:#faf6f0;border-top:1px solid #d8c9b0;">Measurement Summary</div>'
+      +'<div style="border-bottom:1px solid #d8c9b0;">';
+    vftKeys.forEach(function(fid){
+      var f=F[fid]||F[1], ft=vft[fid];
+      vFtHTML+='<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 16px;border-bottom:1px solid #f0e8da;font-size:12px;">'
+        +'<div style="display:flex;align-items:center;gap:7px;">'
+        +'<span style="font-size:10px;font-weight:700;background:#F2E0C0;color:#7A4A18;padding:2px 8px;border-radius:10px;">'+f.name+'</span>'
+        +'<span style="color:#5A3A18;font-weight:600;">Total '+f.unit+'</span></div>'
+        +'<div style="display:flex;gap:16px;align-items:center;">'
+        +'<span style="font-weight:700;color:#2C4F0F;">'+f.resultStr(ft.totalVal)+'</span>'
+        +'<span style="font-weight:700;">Rs '+fmt(ft.totalAmt)+'</span>'
+        +'</div></div>';
+    });
+    vFtHTML+='</div>';
+  }
+  var rc=data.remaining>0?'#B03020':'#2A8A48', rt=data.remaining>0?'Rs '+fmt(data.remaining):'PAID';
+  var roRow=(data.roundoff&&data.roundoff!==0)?'<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #d8c9b0;font-size:13px;"><span style="color:#5A3A18">Round Off</span><span style="font-weight:700">'+(data.roundoff>=0?'+ ':'')+fmt(Math.abs(data.roundoff))+' Rs</span></div>':'';
+  document.getElementById('viewBillContent').innerHTML=
+    '<div style="text-align:center;padding:20px 18px 14px;border-bottom:1px solid #e8dcc8;">'
+    +'<div style="font-family:\'Playfair Display\',serif;font-size:20px;font-weight:900;color:#8C6E50;font-style:italic;">'+(firm||'anand stones suppliers')+'</div>'
+    +'<div style="font-size:11px;color:#B5702A;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:5px;">SANDSTONE SUPPLY BILL</div>'
+    +'<div style="font-size:9px;color:#a89070;letter-spacing:2px;text-transform:uppercase;margin-top:3px;">MEASUREMENT RECEIPT</div>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;padding:13px 16px;gap:9px;border-bottom:1px solid #e8dcc8;">'
+    +'<div><div style="font-size:9px;color:#a89070;text-transform:uppercase;font-weight:700;">Buyer Name</div><div style="font-size:13px;font-weight:700;margin-top:2px;">'+data.buyerName+'</div></div>'
+    +'<div style="text-align:right"><div style="font-size:9px;color:#a89070;text-transform:uppercase;font-weight:700;">Vehicle No.</div><div style="font-size:13px;font-weight:700;margin-top:2px;">'+data.vehicleNo+'</div></div>'
+    +(data.buyerPhone?'<div><div style="font-size:9px;color:#a89070;text-transform:uppercase;font-weight:700;">Phone</div><div style="font-size:12px;font-weight:600;margin-top:2px;">'+data.buyerPhone+'</div></div>':'<div></div>')
+    +'<div style="text-align:right"><div style="font-size:9px;color:#a89070;text-transform:uppercase;font-weight:700;">Bill Date</div><div style="font-size:13px;font-weight:700;margin-top:2px;">'+data.dateStr+'</div></div>'
+    +'</div>'
+    +'<div style="padding:8px 16px 4px;font-size:10px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;border-bottom:1px solid #e8dcc8;">Item Details</div>'
+    +'<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;">'
+    +'<thead><tr style="border-bottom:1px solid #d8c9b0;"><th style="padding:7px 10px;text-align:left;font-size:9px;color:#8C6E50;font-weight:700;text-transform:uppercase;">#</th><th style="padding:7px 10px;font-size:9px;color:#8C6E50;font-weight:700;text-transform:uppercase;">Item</th><th style="padding:7px 10px;text-align:left;font-size:9px;color:#8C6E50;font-weight:700;text-transform:uppercase;">Details</th><th style="padding:7px 10px;text-align:right;font-size:9px;color:#8C6E50;font-weight:700;text-transform:uppercase;">Result</th><th style="padding:7px 10px;font-size:9px;color:#8C6E50;font-weight:700;text-transform:uppercase;">Rate</th><th style="padding:7px 10px;text-align:right;font-size:9px;color:#8C6E50;font-weight:700;text-transform:uppercase;">Amount</th></tr></thead>'
+    +'<tbody>'+rows+'</tbody></table></div>'
+    +vFtHTML
+    +'<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#faf6f0;border-top:1px solid #d8c9b0;border-bottom:1px solid #d8c9b0;">'
+    +'<span style="font-size:10px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;">Sub Total</span>'
+    +'<span style="font-family:\'Playfair Display\',serif;font-size:18px;font-weight:900;color:#B5702A;">Rs '+fmt(data.subTotal)+'</span>'
+    +'</div>'
+    +'<div style="padding:3px 16px;">'
+    +roRow
+    +'<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #d8c9b0;font-size:13px;"><span style="color:#5A3A18;font-weight:700;">Net Payable</span><span style="font-weight:700;font-size:14px;">Rs '+fmt(data.netPayable)+'</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed #d8c9b0;font-size:13px;"><span style="color:#2A8A48">Advance Paid</span><span style="font-weight:700;color:#2A8A48">- Rs '+fmt(data.advance)+'</span></div>'
+    +'<div style="display:flex;justify-content:space-between;padding:7px 0;font-size:13px;"><span style="color:#2A8A48">Amount Paid</span><span style="font-weight:700;color:#2A8A48">- Rs '+fmt(data.paid)+'</span></div>'
+    +'</div>'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-top:2px solid #d8c9b0;">'
+    +'<span style="font-size:14px;font-weight:700;">Remaining Balance</span>'
+    +'<span style="font-size:15px;font-weight:900;color:'+rc+'">'+rt+'</span>'
+    +'</div>'
+    +'<div style="text-align:center;padding:8px 16px;border-top:1px solid #e8dcc8;font-size:10px;color:#a89070;letter-spacing:2px;text-transform:uppercase;">GhanFeet Bill | '+data.dateStr+' | '+(firm||'Sandstone Supply')+'</div>';
+  document.getElementById('viewBillModal').classList.add('show');
+}
+function closeViewModal(){ document.getElementById('viewBillModal').classList.remove('show'); }
+
+// ── DOWNLOAD PDF FOR SAVED BILL ──
+function downloadBillPdf(idx){
+  var data = savedBills[idx];
+  if(!data){ showToast('Bill not found.'); return; }
+
+  // Build pft (formula totals) for this bill
+  var pft = {};
+  (data.items||[]).forEach(function(it){
+    var fid = it.formulaId||1, f = F[fid]||F[1];
+    var val = 0; try{ val = f.calc(it); }catch(e){}
+    if(!pft[fid]) pft[fid] = {totalVal:0, totalAmt:0};
+    pft[fid].totalVal += val;
+    pft[fid].totalAmt += val * pf(it.rate);
+  });
+
+  var buyer = (data.buyerName||'').replace(/^--$/,'').trim();
+  var firm = (data.firmName||'').trim();
+  var veh = (data.vehicleNo||'').replace(/[^a-zA-Z0-9]/g,'');
+  var pdfName = [buyer,firm,veh].filter(Boolean).join('_').replace(/[^a-zA-Z0-9_ ]/g,'').replace(/\s+/g,'_') || 'GhanFeet_Bill';
+
+  // Try jsPDF first
+  if(savePdfBill(data, pdfName, pft)){
+    return; // Toast is shown inside savePdfBill now
+  }
+
+  // Fallback: build print HTML and open/download
+  var rows = '';
+  (data.items||[]).forEach(function(it,i){
+    var f = F[it.formulaId||1], val = 0;
+    try{ val = f.calc(it); }catch(e){}
+    var rate = pf(it.rate), amt = val*rate;
+    rows += '<tr><td>'+(i+1)+'</td><td style="color:#B5702A;font-weight:700;">'+f.name+'</td>'
+      +'<td style="text-align:left;font-size:11px;color:#5A3A18;">'+f.detailStr(it)+'</td>'
+      +'<td class="rc">'+f.resultStr(val)+'</td>'
+      +'<td>Rs '+fmt(rate)+'/'+f.unit+'</td>'
+      +'<td class="bold">Rs '+Math.round(amt).toLocaleString('en-IN')+'</td></tr>';
+  });
+
+  var fTotalsHTML = '';
+  var pftKeys = Object.keys(pft);
+  if(pftKeys.length > 0){
+    fTotalsHTML = '<div style="padding:5px 20px 2px;font-size:9px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;background:#faf6f0;border-top:1px solid #d8c9b0;">Measurement Summary</div>'
+      +'<div style="border-bottom:1px solid #d8c9b0;">';
+    pftKeys.forEach(function(fid){
+      var f = F[fid]||F[1], ft = pft[fid];
+      fTotalsHTML += '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 20px;border-bottom:1px solid #f0e8da;font-size:12px;">'
+        +'<div style="display:flex;align-items:center;gap:8px;">'
+        +'<span style="font-size:10px;font-weight:700;background:#F2E0C0;color:#7A4A18;padding:2px 8px;border-radius:10px;">'+f.name+'</span>'
+        +'<span style="color:#5A3A18;font-weight:600;">Total '+f.unit+'</span></div>'
+        +'<div style="display:flex;gap:18px;align-items:center;">'
+        +'<span style="font-weight:700;color:#2C4F0F;">'+f.resultStr(ft.totalVal)+'</span>'
+        +'<span style="font-weight:700;">Rs '+fmt(ft.totalAmt)+'</span>'
+        +'</div></div>';
+    });
+    fTotalsHTML += '</div>';
+  }
+
+  var rc = (data.remaining||0)>0 ? '#B03020' : '#2A8A48';
+  var rt = (data.remaining||0)>0 ? 'Rs '+fmt(data.remaining) : 'PAID';
+  var roRow = (data.roundoff && data.roundoff!==0)
+    ? '<div class="ar"><span style="color:#5A3A18">Round Off</span><span style="font-weight:700">'+(data.roundoff>=0?'+ ':'- ')+'Rs '+fmt(Math.abs(data.roundoff))+'</span></div>' : '';
+  var mineTag = '';
+
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8">'
+    +'<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">'
+    +'<title>'+pdfName+'</title>'
+    +'<style>'
+    +'@page{margin:12mm 14mm;size:A4;}'
+    +'* { -webkit-print-color-adjust: exact; print-color-adjust: exact; }'
+    +'@media print { @page { margin-top: 0mm; margin-bottom: 0mm; } body { margin: 12mm 14mm; } }'
+    +'*{box-sizing:border-box;margin:0;padding:0;}'
+    +'body{background:#fff;font-family:\'Lora\',Georgia,serif;color:#2A1800;-webkit-print-color-adjust:exact;print-color-adjust:exact;}'
+    +'.w{max-width:100%;margin:0 auto;border:1px solid #d8c9b0;page-break-inside:auto;}'
+    +'.hdr{text-align:center;padding:24px 22px 16px;border-bottom:1px solid #e8dcc8;}'
+    +'.hdr .fn{font-family:\'Playfair Display\',serif;font-size:24px;font-weight:900;color:#8C6E50;font-style:italic;}'
+    +'.hdr .mine{display:inline-block;background:#EDE5F8;color:#5B2D8E;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 12px;border-radius:12px;margin-top:6px;}'
+    +'.hdr .sub{font-size:11px;color:#B5702A;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:5px;}'
+    +'.info{display:grid;grid-template-columns:1fr 1fr;padding:14px 20px;border-bottom:1px solid #e8dcc8;gap:9px;}'
+    +'.il{font-size:9px;color:#a89070;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;}'
+    +'.iv{font-size:13px;font-weight:700;margin-top:3px;}.ir{text-align:right;}'
+    +'.sec{padding:8px 20px 5px;font-size:10px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;border-bottom:1px solid #e8dcc8;}'
+    +'table{width:100%;border-collapse:collapse;}'
+    +'th{padding:6px 8px;font-size:9px;color:#8C6E50;font-weight:700;text-transform:uppercase;text-align:center;border-bottom:1px solid #d8c9b0;}'
+    +'th:first-child{text-align:left;}th:last-child{text-align:right;}'
+    +'td{padding:6px 8px;font-size:11px;text-align:center;border-bottom:1px solid #f0e8da;}'
+    +'td:first-child{text-align:left;color:#8C6E50;font-weight:700;}td:last-child{text-align:right;}'
+    +'td.rc{text-align:right;font-weight:700;color:#2C4F0F;}td.bold{font-weight:700;}'
+    +'.sub-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:#faf6f0;border-top:1px solid #d8c9b0;border-bottom:1px solid #d8c9b0;}'
+    +'.sub-row span:first-child{font-size:10px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;}'
+    +'.sub-row span:last-child{font-family:\'Playfair Display\',serif;font-size:20px;font-weight:900;color:#B5702A;}'
+    +'.amts{padding:3px 20px;}'
+    +'.ar{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #d8c9b0;font-size:13px;}'
+    +'.ar:last-child{border-bottom:none;}'
+    +'.rem{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-top:2px solid #d8c9b0;}'
+    +'.ftr{text-align:center;padding:8px 20px;border-top:1px solid #e8dcc8;font-size:10px;color:#a89070;letter-spacing:2px;text-transform:uppercase;}'
+    +'</style></head><body>'
+    +'<div class="w">'
+    +'<div class="hdr"><div class="fn">'+(data.firmName||'anand stones suppliers')+'</div>'
+    +mineTag
+    +'<div class="sub">SANDSTONE SUPPLY BILL</div></div>'
+    +'<div class="info">'
+    +'<div><div class="il">Bill Date</div><div class="iv">'+data.dateStr+'</div></div>'
+    
+    +'<div><div class="il">Buyer Name</div><div class="iv">'+data.buyerName+'</div></div>'
+    +'<div class="ir"><div class="il">Vehicle Number</div><div class="iv">'+data.vehicleNo+'</div></div>'
+    +(data.buyerPhone?'<div><div class="il">Phone</div><div class="iv">'+data.buyerPhone+'</div></div>':'<div></div>')
+    +'<div class="ir"><div class="il">Bill Date</div><div class="iv">'+data.dateStr+'</div></div>'
+    +'</div>'
+    +'<div class="sec">Item Details</div>'
+    +'<table><thead><tr><th>#</th><th>Item</th><th style="text-align:left">Details</th><th style="text-align:right">Result</th><th>Rate</th><th>Amount (Rs)</th></tr></thead>'
+    +'<tbody>'+rows+'</tbody></table>'
+    +fTotalsHTML
+    +'<div class="sub-row"><span>Sub Total</span><span>Rs '+fmt(data.subTotal||0)+'</span></div>'
+    +'<div class="amts">'
+    +roRow
+    +'<div class="ar"><span style="color:#5A3A18;font-weight:700;">Net Payable</span><span style="font-weight:700;font-size:14px;">Rs '+fmt(data.netPayable||0)+'</span></div>'
+    +'<div class="ar"><span style="color:#2A8A48">Advance Paid</span><span style="font-weight:700;color:#2A8A48">- Rs '+fmt(data.advance||0)+'</span></div>'
+    +'<div class="ar"><span style="color:#2A8A48">Amount Paid</span><span style="font-weight:700;color:#2A8A48">- Rs '+fmt(data.paid||0)+'</span></div>'
+    +'</div>'
+    +'<div class="rem"><span style="font-size:14px;font-weight:700;">Remaining Balance</span><span style="font-size:15px;font-weight:900;color:'+rc+'">'+rt+'</span></div>'
+    +'<div class="ftr">GhanFeet Bill | '+data.dateStr+' | '+(data.firmName||'Anand Stones Suppliers')+'</div>'
+    +'</div>'
+    +'<style>@media print{@page{margin:10mm 12mm;size:A4;}}</style>'
+    +'</body></html>';
+
+  var w = window.open('', '_blank', 'width=820,height=960');
+  if(!w){
+    var blob = new Blob([html], {type:'text/html'});
+    var blobUrl = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = pdfName + '_bill.html';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(blobUrl); }, 1000);
+    showToast('Bill saved as HTML. Open and print as PDF.');
+    return;
+  }
+  w.document.write(html);
+  w.document.close();
+  w.focus();
+  setTimeout(function(){ w.print(); }, 300);
+  showToast('Choose "Save as PDF" in the print dialog.');
+}
+
+// ── iOS FALLBACK SAVE ──
+function iosFallbackSave(blob, fileName){
+  var url = URL.createObjectURL(blob);
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  if(isIOS){
+    var a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showToast('PDF open hua — Share (📤) button se bhejo!');
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 30000);
+  } else {
+    var a = document.createElement('a');
+    a.href = url; a.download = fileName;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+  }
+}
+
+// ── PDF EXPORT ──
+function savePdfBill(data, pdfName, pft){
+  if(!window.jspdf || !window.jspdf.jsPDF) return false;
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF({orientation:'portrait', unit:'pt', format:'a4'});
+  var pageW = doc.internal.pageSize.getWidth();
+  var pageH = doc.internal.pageSize.getHeight();
+  var m = 40, y = 40, w = pageW - (m*2);
+  var colW = w/2;
+
+  function addPageIfNeeded(h){ if(y+h > pageH-40){ doc.addPage(); y=40; } }
+  function clean(v){ return String(v==null?'':v).replace(/[₹✓⛏]/g,'').trim(); }
+  function money(v){ return 'Rs '+fmt(v||0); }
+  function hline(){ doc.setDrawColor(216,201,176); doc.setLineWidth(0.5); doc.line(m,y,pageW-m,y); }
+  function dline(){ doc.setDrawColor(216,201,176); doc.setLineWidth(0.3); doc.setLineDashPattern([2,2],0); doc.line(m,y,pageW-m,y); doc.setLineDashPattern([],0); }
+  function lbl(t,x,yy){ doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(168,144,112); doc.text(t,x,yy); }
+  function val(t,x,yy,align){ doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(42,24,0); doc.text(clean(t),x,yy,{align:align||'left'}); }
+
+  // ── HEADER ──
+  doc.setFont('times','bolditalic');
+  doc.setFontSize(22); doc.setTextColor(140,110,80);
+  doc.text(clean(data.firmName||'Anand Stones Suppliers'), pageW/2, y+28, {align:'center'});
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9); doc.setTextColor(181,112,42);
+  doc.text('SANDSTONE SUPPLY BILL', pageW/2, y+44, {align:'center'});
+  doc.setFontSize(7.5); doc.setTextColor(168,144,112);
+  doc.text('MEASUREMENT RECEIPT', pageW/2, y+56, {align:'center'});
+  y += 68; hline(); y += 14;
+
+  // ── INFO GRID ──
+  lbl('BUYER NAME', m, y); lbl('VEHICLE NUMBER', m+colW, y);
+  val(data.buyerName, m, y+13); val(data.vehicleNo, pageW-m, y+13, 'right');
+  y += 28;
+  if(data.buyerPhone){
+    lbl('PHONE', m, y); lbl('BILL DATE', m+colW, y);
+    val(data.buyerPhone, m, y+13); val(data.dateStr, pageW-m, y+13, 'right');
+    y += 28;
+  } else {
+    lbl('BILL DATE', m, y);
+    val(data.dateStr, m, y+13);
+    y += 28;
+  }
+  hline(); y += 10;
+
+  // ── ITEM DETAILS HEADER ──
+  doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(168,144,112);
+  doc.text('ITEM DETAILS', m, y); y += 10; hline(); y += 4;
+
+  // Table header
+  var cols = {num:m, item:m+20, details:m+80, result:m+240, rate:m+325, amt:pageW-m};
+  doc.setFillColor(250,246,240); doc.rect(m, y, w, 20, 'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(140,110,80);
+  ['#','ITEM','DETAILS','RESULT','RATE','AMOUNT (Rs)'].forEach(function(h,i){
+    var x=[cols.num,cols.item,cols.details,cols.result,cols.rate,cols.amt][i];
+    var align=i>=3?'right':'left';
+    doc.text(h, i>=3?x-4:x+2, y+13, {align:align});
+  });
+  y += 20;
+
+  // Table rows
+  (data.items||[]).forEach(function(it,i){
+    var f=F[it.formulaId||1]||F[1];
+    var val2=0; try{val2=f.calc(it);}catch(e){}
+    var rate=pf(it.rate), amt=val2*rate;
+    var detLines=doc.splitTextToSize(clean(f.detailStr(it)), 130);
+    var rowH=Math.max(26, detLines.length*11+10);
+    addPageIfNeeded(rowH+4);
+    doc.setDrawColor(232,220,200); doc.setLineWidth(0.3); doc.line(m,y,pageW-m,y);
+    var mid=rowH/2+3;
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(100,80,60);
+    doc.text(String(i+1), cols.num+2, y+mid);
+    doc.setFont('helvetica','bold'); doc.setTextColor(181,112,42);
+    doc.text(clean(f.name), cols.item+2, y+mid);
+    doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(90,58,24);
+    doc.text(detLines, cols.details+2, y+10);
+    doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(44,79,15);
+    doc.text(clean(f.resultStr(val2)), cols.result+70, y+mid, {align:'right'});
+    doc.setFont('helvetica','normal'); doc.setTextColor(42,24,0);
+    doc.text('Rs '+fmt(rate)+'/'+clean(f.unit), cols.rate+88, y+mid, {align:'right'});
+    doc.setFont('helvetica','bold');
+    doc.text('Rs '+Math.round(amt).toLocaleString('en-IN'), cols.amt-2, y+mid, {align:'right'});
+    y += rowH;
+  });
+
+  // Measurement summary
+  var pftKeys=Object.keys(pft||{});
+  if(pftKeys.length){
+    addPageIfNeeded(20+pftKeys.length*20);
+    hline(); y+=4;
+    doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(168,144,112);
+    doc.text('MEASUREMENT SUMMARY', m, y); y+=12;
+    pftKeys.forEach(function(fid){
+      var f=F[fid]||F[1], ft=pft[fid];
+      doc.setFillColor(242,224,192); doc.roundedRect(m, y-8, 50, 12, 3, 3, 'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(122,74,24);
+      doc.text(clean(f.name), m+4, y);
+      doc.setTextColor(90,58,24); doc.text('Total '+clean(f.unit), m+58, y);
+      doc.setTextColor(44,79,15); doc.text(clean(f.resultStr(ft.totalVal)), pageW-m-100, y, {align:'right'});
+      doc.setTextColor(42,24,0); doc.text(money(ft.totalAmt), pageW-m-2, y, {align:'right'});
+      y+=18;
+    });
+  }
+
+  // Sub total bar
+  addPageIfNeeded(100);
+  hline(); y+=4;
+  doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(168,144,112);
+  doc.text('SUB TOTAL', m, y+12);
+  doc.setFont('times','bold'); doc.setFontSize(16); doc.setTextColor(181,112,42);
+  doc.text(money(data.subTotal), pageW-m, y+14, {align:'right'});
+  y+=22; hline(); y+=8;
+
+  // Amounts section
+  doc.setFontSize(11);
+  if(data.roundoff&&data.roundoff!==0){
+    doc.setFont('helvetica','normal'); doc.setTextColor(90,58,24);
+    doc.text('Round Off', m, y);
+    doc.setFont('helvetica','bold'); doc.text((data.roundoff>=0?'+ ':' ')+money(Math.abs(data.roundoff)), pageW-m, y, {align:'right'});
+    y+=16; dline(); y+=8;
+  }
+  doc.setFont('helvetica','bold'); doc.setTextColor(42,24,0);
+  doc.text('Net Payable', m, y);
+  doc.text(money(data.netPayable), pageW-m, y, {align:'right'});
+  y+=16; dline(); y+=8;
+  doc.setFont('helvetica','normal'); doc.setTextColor(42,138,72);
+  doc.text('Advance Paid', m, y);
+  doc.setFont('helvetica','bold'); doc.text('- '+money(data.advance), pageW-m, y, {align:'right'});
+  y+=16; dline(); y+=8;
+  doc.setFont('helvetica','normal'); doc.setTextColor(42,138,72);
+  doc.text('Amount Paid', m, y);
+  doc.setFont('helvetica','bold'); doc.text('- '+money(data.paid), pageW-m, y, {align:'right'});
+  y+=16;
+
+  // Remaining balance
+  addPageIfNeeded(40);
+  doc.setDrawColor(216,201,176); doc.setLineWidth(1.5); doc.line(m,y,pageW-m,y); y+=12;
+  doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(42,24,0);
+  doc.text('Remaining Balance', m, y);
+  var remAmt=data.remaining||0;
+  doc.setTextColor(remAmt>0?176:42, remAmt>0?48:138, remAmt>0?32:72);
+  doc.text(remAmt>0?money(remAmt):'PAID', pageW-m, y, {align:'right'});
+  y+=18;
+  doc.setDrawColor(216,201,176); doc.setLineWidth(0.5); doc.line(m,y,pageW-m,y); y+=12;
+
+  // Footer
+  doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(168,144,112);
+  doc.text('GhanFeet Bill | '+clean(data.dateStr)+' | '+clean(data.firmName||'Anand Stones Suppliers'), pageW/2, y, {align:'center'});
+
+  // Share/Save
+  var pdfBlob = doc.output('blob');
+  var fileName = pdfName+'.pdf';
+  if(navigator.share && navigator.canShare && navigator.canShare({files:[new File([pdfBlob],'test.pdf',{type:'application/pdf'})]})){
+    var file=new File([pdfBlob],fileName,{type:'application/pdf'});
+    navigator.share({title:fileName,files:[file]}).then(function(){
+      showToast('✅ PDF shared!');
+    }).catch(function(e){
+      if(e.name!=='AbortError') iosFallbackSave(pdfBlob,fileName);
+    });
+  } else {
+    iosFallbackSave(pdfBlob,fileName);
+  }
+  return true;
+}
+
+
+// ── PRINT ──
+function printBill(){
+  var data=getBillData(), rows='';
+  data.items.forEach(function(it,i){
+    var f=F[it.formulaId||1], val=f.calc(it), rate=pf(it.rate), amt=val*rate;
+    rows+='<tr><td>'+(i+1)+'</td><td style="color:#B5702A;font-weight:700;">'+f.name+'</td>'
+      +'<td style="text-align:left;font-size:11px;color:#5A3A18;">'+f.detailStr(it)+'</td>'
+      +'<td class="rc">'+f.resultStr(val)+'</td>'
+      +'<td>Rs '+fmt(rate)+'/'+f.unit+'</td>'
+      +'<td class="bold">Rs '+Math.round(amt).toLocaleString('en-IN')+'</td></tr>';
+  });
+  var _buyer=(data.buyerName||'').replace(/^--$/,'').trim();
+  var _firm=(data.firmName||'').trim();
+  var _veh=(data.vehicleNo||'').replace(/[^a-zA-Z0-9]/g,'');
+  var pdfName=[_buyer,_firm,_veh].filter(Boolean).join('_').replace(/[^a-zA-Z0-9_ ]/g,'').replace(/\s+/g,'_')||'GhanFeet_Bill';
+  var rc=data.remaining>0?'#B03020':'#2A8A48', rt=data.remaining>0?'Rs '+fmt(data.remaining):'PAID';
+  var roRow=(data.roundoff&&data.roundoff!==0)?'<div class="ar"><span style="color:#5A3A18">Round Off</span><span style="font-weight:700">'+(data.roundoff>=0?'+ ':'')+'Rs '+fmt(Math.abs(data.roundoff))+'</span></div>':'';
+  var pft={};
+  data.items.forEach(function(it){
+    var fid=it.formulaId||1, f=F[fid]||F[1];
+    var val=0; try{val=f.calc(it);}catch(e){}
+    if(!pft[fid]) pft[fid]={totalVal:0,totalAmt:0};
+    pft[fid].totalVal+=val; pft[fid].totalAmt+=val*pf(it.rate);
+  });
+  var fTotalsHTML='';
+  var pftKeys=Object.keys(pft);
+  if(pftKeys.length>0){
+    fTotalsHTML='<div style="padding:5px 20px 2px;font-size:9px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;background:#faf6f0;border-top:1px solid #d8c9b0;">Measurement Summary</div>'
+      +'<div style="border-bottom:1px solid #d8c9b0;">';
+    pftKeys.forEach(function(fid){
+      var f=F[fid]||F[1], ft=pft[fid];
+      fTotalsHTML+='<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 20px;border-bottom:1px solid #f0e8da;font-size:12px;">'
+        +'<div style="display:flex;align-items:center;gap:8px;">'
+        +'<span style="font-size:10px;font-weight:700;background:#F2E0C0;color:#7A4A18;padding:2px 8px;border-radius:10px;">'+f.name+'</span>'
+        +'<span style="color:#5A3A18;font-weight:600;">Total '+f.unit+'</span></div>'
+        +'<div style="display:flex;gap:18px;align-items:center;">'
+        +'<span style="font-weight:700;color:#2C4F0F;">'+f.resultStr(ft.totalVal)+'</span>'
+        +'<span style="font-weight:700;">Rs '+fmt(ft.totalAmt)+'</span>'
+        +'</div></div>';
+    });
+    fTotalsHTML+='</div>';
+  }
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8">'
+    +'<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">'
+    +'<title>'+pdfName+'</title>'
+    +'<style>'
+    +'@page{margin:12mm 14mm;size:A4;}'
+    +'* { -webkit-print-color-adjust: exact; }'
+    +'@media print { @page { margin-top: 0mm; margin-bottom: 0mm; } body { margin: 12mm 14mm; } }'
+    +'*{box-sizing:border-box;margin:0;padding:0;}'
+    +'body{background:#fff;font-family:\'Lora\',Georgia,serif;color:#2A1800;-webkit-print-color-adjust:exact;print-color-adjust:exact;}'
+    +'.w{max-width:100%;margin:0 auto;border:1px solid #d8c9b0;page-break-inside:auto;}'
+    +'.hdr{text-align:center;padding:24px 22px 16px;border-bottom:1px solid #e8dcc8;}'
+    +'.hdr .fn{font-family:\'Playfair Display\',serif;font-size:24px;font-weight:900;color:#8C6E50;font-style:italic;}'
+    +'.hdr .mine{display:inline-block;background:#EDE5F8;color:#5B2D8E;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 12px;border-radius:12px;margin-top:6px;}'
+    +'.hdr .sub{font-size:11px;color:#B5702A;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:5px;}'
+    +'.info{display:grid;grid-template-columns:1fr 1fr;padding:14px 20px;border-bottom:1px solid #e8dcc8;gap:9px;}'
+    +'.il{font-size:9px;color:#a89070;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;}'
+    +'.iv{font-size:13px;font-weight:700;margin-top:3px;}.ir{text-align:right;}'
+    +'.sec{padding:8px 20px 5px;font-size:10px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;border-bottom:1px solid #e8dcc8;}'
+    +'table{width:100%;border-collapse:collapse;}'
+    +'th{padding:6px 8px;font-size:9px;color:#8C6E50;font-weight:700;text-transform:uppercase;text-align:center;border-bottom:1px solid #d8c9b0;}'
+    +'th:first-child{text-align:left;}th:last-child{text-align:right;}'
+    +'td{padding:6px 8px;font-size:11px;text-align:center;border-bottom:1px solid #f0e8da;}'
+    +'td:first-child{text-align:left;color:#8C6E50;font-weight:700;}td:last-child{text-align:right;}'
+    +'td.rc{text-align:right;font-weight:700;color:#2C4F0F;}td.bold{font-weight:700;}'
+    +'.sub-row{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:#faf6f0;border-top:1px solid #d8c9b0;border-bottom:1px solid #d8c9b0;}'
+    +'.sub-row span:first-child{font-size:10px;color:#a89070;text-transform:uppercase;letter-spacing:2px;font-weight:700;}'
+    +'.sub-row span:last-child{font-family:\'Playfair Display\',serif;font-size:20px;font-weight:900;color:#B5702A;}'
+    +'.amts{padding:3px 20px;}'
+    +'.ar{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #d8c9b0;font-size:13px;}'
+    +'.ar:last-child{border-bottom:none;}'
+    +'.rem{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-top:2px solid #d8c9b0;}'
+    +'.ftr{text-align:center;padding:8px 20px;border-top:1px solid #e8dcc8;font-size:10px;color:#a89070;letter-spacing:2px;text-transform:uppercase;}'
+    +'</style></head><body>'
+    +'<div class="w">'
+    +'<div class="hdr"><div class="fn">'+(firm||'anand stones suppliers')+'</div>'
+    +'<div class="sub">SANDSTONE SUPPLY BILL</div></div>'
+    +'<div class="info">'
+    +'<div><div class="il">Bill Date</div><div class="iv">'+data.dateStr+'</div></div>'
+    
+    +'<div><div class="il">Buyer Name</div><div class="iv">'+data.buyerName+'</div></div>'
+    +'<div class="ir"><div class="il">Vehicle Number</div><div class="iv">'+data.vehicleNo+'</div></div>'
+    +(data.buyerPhone?'<div><div class="il">Phone</div><div class="iv">'+data.buyerPhone+'</div></div>':'<div></div>')
+    +'<div class="ir"><div class="il">Bill Date</div><div class="iv">'+data.dateStr+'</div></div>'
+    +'</div>'
+    +'<div class="sec">Item Details</div>'
+    +'<table><thead><tr><th>#</th><th>Item</th><th style="text-align:left">Details</th><th style="text-align:right">Result</th><th>Rate</th><th>Amount (Rs)</th></tr></thead>'
+    +'<tbody>'+rows+'</tbody></table>'
+    +fTotalsHTML
+    +'<div class="sub-row"><span>Sub Total</span><span>Rs '+fmt(data.subTotal)+'</span></div>'
+    +'<div class="amts">'
+    +roRow
+    +'<div class="ar"><span style="color:#5A3A18;font-weight:700;">Net Payable</span><span style="font-weight:700;font-size:14px;">Rs '+fmt(data.netPayable)+'</span></div>'
+    +'<div class="ar"><span style="color:#2A8A48">Advance Paid</span><span style="font-weight:700;color:#2A8A48">- Rs '+fmt(data.advance)+'</span></div>'
+    +'<div class="ar"><span style="color:#2A8A48">Amount Paid</span><span style="font-weight:700;color:#2A8A48">- Rs '+fmt(data.paid)+'</span></div>'
+    +'</div>'
+    +'<div class="rem"><span style="font-size:14px;font-weight:700;">Remaining Balance</span><span style="font-size:15px;font-weight:900;color:'+rc+'">'+rt+'</span></div>'
+    +'<div class="ftr">GhanFeet Bill | '+data.dateStr+' | '+(firm||'Anand Stones Suppliers')+'</div>'
+    +'</div>'
+    +'<style>@media print{@page{margin:10mm 12mm;size:A4;}}</style>'
+    +'</body></html>';
+  if(savePdfBill(data, pdfName, pft)){
+    return; // Toast handled inside savePdfBill
+  }
+  var w=window.open('', '_blank', 'width=820,height=960');
+  if(!w){
+    var blob = new Blob([html], {type:'text/html'});
+    var blobUrl = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = pdfName + '_bill.html';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(blobUrl); }, 1000);
+    showToast('Bill saved as HTML. Open the file and print as PDF.');
+    return;
+  }
+  w.document.write(html);
+  w.document.close();
+  w.focus();
+  setTimeout(function(){ w.print(); }, 300);
+  showToast('PDF library unavailable. Choose Save as PDF in the print dialog.');
+}
+
+// ── EDIT BILL ──
+var _editIdx = -1;
+var emItems = [];
+var emItemId = 0;
+
+function editBill(idx){
+  askPassword('Password daalo — bill edit hoga', function(){
+    _doEditBill(idx);
+  });
+}
+function _doEditBill(idx){
+  _editIdx = idx;
+  var bill = savedBills[idx];
+  if(!bill) return;
+  document.getElementById('em-buyerPhone').value = bill.buyerPhone || '';
+
+  // Populate mine dropdown
+  var mineSelect = document.getElementById('em-mineId');
+  mineSelect.innerHTML = '<option value="">-- No Mine --</option>';
+  mines.forEach(function(m){
+    var opt = document.createElement('option');
+    opt.value = m.id; opt.textContent = m.name;
+    if(bill.mineId === m.id) opt.selected = true;
+    mineSelect.appendChild(opt);
+  });
+
+  // Populate header fields
+  document.getElementById('em-firmName').value = bill.firmName || '';
+  document.getElementById('em-buyerName').value = bill.buyerName || '';
+  document.getElementById('em-vehicleNo').value = bill.vehicleNo || '';
+  document.getElementById('em-dateStr').value = bill.dateStr || '';
+  document.getElementById('em-advance').value = bill.advance || '';
+  document.getElementById('em-paid').value = bill.paid || '';
+  document.getElementById('em-roundoff').value = bill.roundoff || '';
+
+  // Deep-copy items
+  emItems = JSON.parse(JSON.stringify(bill.items || []));
+  emItemId = emItems.reduce(function(m,it){ return Math.max(m, it.id||0); }, 0);
+
+  emRenderItems();
+  emRecalc();
+  document.getElementById('editBillModal').classList.add('show');
+  document.getElementById('editBillModal').scrollTop = 0;
+}
+
+function closeEditModal(){
+  document.getElementById('editBillModal').classList.remove('show');
+  _editIdx = -1;
+}
+
+function emAddItem(){
+  var newId = ++emItemId;
+  emItems.push({id:newId, formulaId:1, qty:'', length:'', breadth:'', height:'', rate:''});
+  emRenderItems();
+  emRecalc();
+}
+
+function emRemoveItem(id){
+  if(emItems.length <= 1){ showToast('At least one item required.'); return; }
+  emItems = emItems.filter(function(i){ return i.id !== id; });
+  emRenderItems();
+  emRecalc();
+}
+
+function emUpdateItem(id, field, value){
+  var it = emItems.find(function(i){ return i.id === id; });
+  if(it){ it[field] = value; emRefreshBadge(id); emRecalc(); }
+}
+
+function emChangeFormula(id, fid){
+  var it = emItems.find(function(i){ return i.id === id; });
+  if(!it) return;
+  it.formulaId = parseInt(fid);
+  it.qty=''; it.length=''; it.breadth=''; it.height='';
+  emRenderItems();
+  emRecalc();
+}
+
+function emRefreshBadge(id){
+  var it = emItems.find(function(i){ return i.id === id; });
+  if(!it) return;
+  var f = F[it.formulaId||1];
+  var val = f.calc(it);
+  var amt = val * pf(it.rate);
+  var rb = document.getElementById('em-res-'+id);
+  var ab = document.getElementById('em-amt-'+id);
+  if(rb) rb.textContent = f.resultStr(val);
+  if(ab) ab.textContent = '= Rs ' + Math.round(amt).toLocaleString('en-IN');
+}
+
+function emRenderItems(){
+  var c = document.getElementById('em-items-container');
+  c.innerHTML = '';
+  emItems.forEach(function(it, idx){
+    var f = F[it.formulaId||1];
+    var val = f.calc(it), rate = pf(it.rate), amt = val*rate;
+    var div = document.createElement('div');
+    div.className = 'edit-item-row';
+
+    var topRow = '<div class="item-formula-row" style="margin-bottom:10px;">'
+      +'<div class="form-group"><label>Formula</label>'
+      +'<select class="formula-mini-select" onchange="emChangeFormula('+it.id+',this.value)">'
+      +[1,2,3,4].map(function(n){
+        return '<option value="'+n+'"'+(it.formulaId===n?' selected':'')+'>F'+n+': '+F[n].name+'</option>';
+      }).join('')
+      +'</select></div>'
+      +'<div class="form-group"><label>'+f.rateLabel+' (Rs)</label>'
+      +'<input type="number" placeholder="0" value="'+(it.rate||'')+'" oninput="emUpdateItem('+it.id+',\'rate\',this.value)">'
+      +'</div></div>';
+
+    var nc = f.fields.length;
+    var gs = nc===1?'1fr':nc===2?'1fr 1fr':nc===3?'1fr 1fr 1fr':'1fr 1fr 1fr 1fr';
+    var fieldsHTML = '<div style="display:grid;grid-template-columns:'+gs+';gap:8px;">';
+    f.fields.forEach(function(field, fi){
+      fieldsHTML += '<div class="form-group"><label>'+f.labels[fi]+'</label>'
+        +'<input type="number" placeholder="0" value="'+(it[field]||'')+'" oninput="emUpdateItem('+it.id+',\''+field+'\',this.value)">'
+        +'</div>';
+    });
+    fieldsHTML += '</div>';
+
+    div.innerHTML =
+      '<div class="edit-item-header">'
+        +'<span class="item-num-badge">Item #'+(idx+1)+'</span>'
+        +'<div class="item-right-controls">'
+          +'<span class="item-result-badge" id="em-res-'+it.id+'">'+f.resultStr(val)+'</span>'
+          +'<span class="item-amt-badge" id="em-amt-'+it.id+'">'+(rate>0?'= Rs '+Math.round(amt).toLocaleString('en-IN'):'Rs --')+'</span>'
+          +(emItems.length>1?'<button class="del-btn" onclick="emRemoveItem('+it.id+')">&times;</button>':'')
+        +'</div>'
+      +'</div>'
+      +topRow+fieldsHTML;
+    c.appendChild(div);
+  });
+}
+
+function emGetSubTotal(){
+  return emItems.reduce(function(sum, it){
+    var f = F[it.formulaId||1];
+    return sum + f.calc(it) * pf(it.rate);
+  }, 0);
+}
+
+function emRecalc(){
+  var sub = emGetSubTotal();
+  var ro = pf(document.getElementById('em-roundoff').value);
+  var net = sub + ro;
+  var adv = pf(document.getElementById('em-advance').value);
+  var paid = pf(document.getElementById('em-paid').value);
+  var rem = net - adv - paid;
+  document.getElementById('em-netPayable').value = net.toFixed(2);
+  document.getElementById('em-remaining').value = rem > 0 ? rem.toFixed(2) : '0.00';
+  document.getElementById('em-live-total').innerHTML = '&#8377; ' + fmt(net);
+  // refresh item badges too
+  emItems.forEach(function(it){ emRefreshBadge(it.id); });
+}
+
+function saveEditedBill(){
+  if(_editIdx < 0) return;
+  var bill = savedBills[_editIdx];
+
+  // Collect header info
+  var mineId = document.getElementById('em-mineId').value || null;
+  var mineName = '';
+  if(mineId){
+    var m = getMine(mineId);
+    if(m) mineName = m.name;
+  }
+
+  var sub = emGetSubTotal();
+  var ro = pf(document.getElementById('em-roundoff').value);
+  var net = sub + ro;
+  var adv = pf(document.getElementById('em-advance').value);
+  var paid = pf(document.getElementById('em-paid').value);
+  var rem = net - adv - paid;
+
+  // Update bill in place
+  bill.firmName = document.getElementById('em-firmName').value.trim();
+  bill.buyerName = document.getElementById('em-buyerName').value.trim() || '--';
+  bill.buyerPhone = document.getElementById('em-buyerPhone').value.trim() || '';
+  bill.vehicleNo = document.getElementById('em-vehicleNo').value.trim().toUpperCase() || '--';
+  bill.dateStr = document.getElementById('em-dateStr').value.trim();
+  bill.mineId = mineId;
+  bill.mineName = mineName;
+  bill.items = JSON.parse(JSON.stringify(emItems));
+  bill.subTotal = sub;
+  bill.roundoff = ro;
+  bill.netPayable = net;
+  bill.advance = adv;
+  bill.paid = paid;
+  bill.remaining = rem;
+  bill.editedAt = new Date().toISOString();
+
+  saveStorage();
+  renderHistory();
+  renderMines();
+  closeEditModal();
+  showToast('Bill updated successfully!');
+}
+
+function showToast(msg){
+  var t=document.createElement('div'); t.textContent=msg;
+  t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2A1800;color:#FFF8EE;padding:12px 24px;border-radius:30px;font-family:Lora,serif;font-size:14px;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.3);white-space:nowrap;max-width:90vw;text-align:center;';
+  document.body.appendChild(t); setTimeout(function(){t.remove();},3000);
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(function(b,i){
+    b.classList.toggle('active',['mines','entry','summary','bill','history'][i]===tab);
+  });
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('panel-'+tab).classList.add('active');
+  if(tab==='summary') populateSummary();
+  if(tab==='bill'){ var d=getBillData(); populateBill(d); }
+  if(tab==='history') renderHistory();
+  if(tab==='mines') renderMines();
+}
+
+loadStorage(); renderMines(); updateEntryMineBadge(); addItem();
+// Set today's date as default
+(function(){
+  var d = new Date();
+  var dd = String(d.getDate()).padStart(2,'0');
+  var mm = String(d.getMonth()+1).padStart(2,'0');
+  var yyyy = d.getFullYear();
+  var el = document.getElementById('billDate');
+  if(el) el.value = yyyy+'-'+mm+'-'+dd;
+})();
+
+// ── DATA BACKUP & RESTORE (iOS Safe) ──
+function exportBackup(){
+  try{
+    var data = {
+      v: 1,
+      at: new Date().toISOString(),
+      bills: localStorage.getItem('ss_bills') || '[]',
+      counter: localStorage.getItem('ss_counter') || '1',
+      mines: localStorage.getItem('ss_mines') || '[]',
+      active: localStorage.getItem('ss_active_mine') || ''
+    };
+    var json = JSON.stringify(data);
+    var blob = new Blob([json], {type:'application/json'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    var d = new Date();
+    var fname = 'GhanFeet_' + d.getFullYear() + ('0'+(d.getMonth()+1)).slice(-2) + ('0'+d.getDate()).slice(-2) + '.json';
+    a.href = url; a.download = fname;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 1500);
+    showToast('✅ Backup saved: ' + fname);
+  } catch(e){ showToast('❌ Backup failed!'); }
+}
+
+function importBackup(){
+  var inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = '.json,application/json';
+  inp.onchange = function(e){
+    var file = e.target.files[0]; if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        var d = JSON.parse(ev.target.result);
+        if(!d.v || !d.bills){ showToast('❌ Invalid backup file!'); return; }
+        if(!confirm('⚠️ Sab current data replace ho jayega. Confirm?')) return;
+        localStorage.setItem('ss_bills', d.bills);
+        localStorage.setItem('ss_counter', d.counter);
+        localStorage.setItem('ss_mines', d.mines);
+        if(d.active) localStorage.setItem('ss_active_mine', d.active);
+        else localStorage.removeItem('ss_active_mine');
+        loadStorage(); renderMines(); updateEntryMineBadge();
+        showToast('✅ Data restore ho gaya!');
+      } catch(e){ showToast('❌ Restore failed!'); }
+    };
+    reader.readAsText(file);
+  };
+  document.body.appendChild(inp); inp.click();
+  setTimeout(function(){ if(inp.parentNode) document.body.removeChild(inp); }, 3000);
+}
+
+function toggleBackupMenu(){
+  var m = document.getElementById('bk-menu');
+  m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+}
+document.addEventListener('click', function(e){
+  var m = document.getElementById('bk-menu');
+  var b = document.getElementById('bk-btn');
+  if(m && b && !m.contains(e.target) && !b.contains(e.target)) m.style.display = 'none';
+});
+</script>
+
+<!-- Floating Backup Button -->
+<div style="position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));right:14px;z-index:999;">
+  <button id="bk-btn" onclick="toggleBackupMenu()" aria-label="Backup" style="width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#7A4A18,#B5702A);border:none;color:#FFF8EE;font-size:22px;box-shadow:0 4px 18px rgba(120,72,20,0.45);cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">💾</button>
+  <div id="bk-menu" style="display:none;position:absolute;bottom:58px;right:0;background:#FFFBF2;border:1.5px solid #C8A882;border-radius:14px;box-shadow:0 8px 32px rgba(120,72,20,0.22);min-width:170px;overflow:hidden;">
+    <button onclick="exportBackup();toggleBackupMenu();" style="width:100%;padding:14px 18px;border:none;background:none;text-align:left;font-family:'Lora',serif;font-size:14px;font-weight:600;color:#2A1800;cursor:pointer;display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">📤 Export Backup</button>
+    <div style="height:1px;background:#EAD9C0;margin:0 14px;"></div>
+    <button onclick="importBackup();toggleBackupMenu();" style="width:100%;padding:14px 18px;border:none;background:none;text-align:left;font-family:'Lora',serif;font-size:14px;font-weight:600;color:#2A1800;cursor:pointer;display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;">📥 Restore Backup</button>
+  </div>
+</div>
+
+</body>
+</html>
