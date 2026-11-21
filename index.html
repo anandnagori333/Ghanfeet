@@ -185,7 +185,29 @@ table.bt td.ac{text-align:right;font-weight:700;}
 .bch-amt{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:var(--text);}
 .bch-detail{font-size:11px;color:var(--accent);font-weight:700;}
 .bch-rem{font-size:11px;font-weight:700;margin-top:3px;}
-.bch-actions{display:flex;gap:8px;}
+.bch-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.bch-actions .bch-btn{min-width:28%;}
+.f-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:7px;}
+.f-chips-sm{grid-template-columns:repeat(2,auto);justify-content:start;margin-bottom:12px;}
+.f-chip{padding:12px 4px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-family:'Lora',serif;font-size:14px;font-weight:700;color:var(--stone-dark);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.f-chip-sm{padding:6px 12px;font-size:11px;font-weight:600;border-radius:20px;opacity:.85;}
+.f-chip.on{background:linear-gradient(135deg,#7A4A18,#B5702A);border-color:#7A4A18;color:#fff;opacity:1;}
+.dim-grid{display:grid;gap:8px;}
+.rate-row{display:flex;gap:10px;align-items:flex-end;margin-top:10px;}
+.rate-box{flex:0 0 42%;margin:0;}
+.res-box{flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:5px;padding-bottom:4px;}
+input.rate-in{background:#fff8ee;border:1.5px dashed #B5702A;border-radius:8px;padding:11px 8px;font-family:'Lora',serif;font-size:17px!important;font-weight:700;color:var(--text);outline:none;width:100%;text-align:center;-webkit-appearance:none;}
+input.rate-in:focus{border-style:solid;box-shadow:0 0 0 3px rgba(181,112,42,.18);}
+.dup-btn{background:var(--stone-pale);border:none;border-radius:8px;color:var(--stone-dark);font-family:'Lora',serif;font-size:12px;font-weight:700;height:44px;padding:0 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.bch-size{background:linear-gradient(135deg,#7A4A18,#B5702A);color:#fff;}
+input.num-in{background:var(--input-bg);border:1.5px solid var(--border);border-radius:8px;padding:12px 6px;font-family:'Lora',serif;font-size:18px!important;font-weight:700;color:var(--text);outline:none;width:100%;text-align:center;-webkit-appearance:none;appearance:none;}
+input.num-in:focus{border-color:#B5702A;box-shadow:0 0 0 3px rgba(181,112,42,.18);background:#fff;}
+.sz-sec-title{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:#F2E0C0;color:#7A4A18;font-weight:700;font-size:13px;}
+.sz-table{width:100%;border-collapse:collapse;font-size:13px;}
+.sz-table th{padding:7px 10px;font-size:9px;color:#8C6E50;text-transform:uppercase;border-bottom:1px solid #d8c9b0;text-align:center;}
+.sz-table td{padding:8px 10px;border-bottom:1px solid #f0e8da;text-align:center;}
+.sz-table tr.sz-tot td{font-weight:900;background:#faf6f0;border-top:1.5px solid #d8c9b0;}
+.sz-btn{width:100%;padding:12px;border:none;border-radius:10px;font-family:'Lora',serif;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px;color:#fff;}
 .bch-btn{flex:1;padding:8px;border:none;border-radius:8px;font-family:'Lora',serif;font-size:13px;font-weight:700;cursor:pointer;}
 .bch-view{background:var(--primary-pale);color:var(--primary-dark);}
 .bch-delete{background:var(--danger-light);color:var(--danger);}
@@ -325,7 +347,7 @@ table.bt td.ac{text-align:right;font-weight:700;}
       <span style="margin-left:auto;font-size:10px;font-weight:400;color:var(--text-light);text-transform:none;letter-spacing:0;">Each item has its own formula &amp; rate</span>
     </div>
     <div id="items-container"></div>
-    <button class="btn btn-add" onclick="addItem()">+ Add Another Item</button>
+    <button class="btn btn-add" onclick="addItem(true)">+ Add Another Item</button>
     <div class="grand-total-box">
       <div class="grand-total-label">Total Bill Amount</div>
       <div class="grand-total-value" id="grandTotalAmt">&#8377; 0.00</div>
@@ -387,7 +409,8 @@ table.bt td.ac{text-align:right;font-weight:700;}
 <div class="tab-panel" id="panel-bill">
   <div class="no-print" style="margin-bottom:14px;">
     <button class="btn btn-save" onclick="saveBillAndReset()">Save Bill &amp; Start New Entry</button>
-    <button class="btn btn-print" onclick="printBill()">&#128424; Save as PDF</button>
+    <button class="btn btn-print" onclick="sendBill(-1)">&#128196; Bill PDF — WhatsApp / Share / Download</button>
+    <button class="btn btn-print" style="background:linear-gradient(135deg,#7A4A18,#B5702A);" onclick="showSizeDetail(-1)">&#128207; Size Detail (Download / Share)</button>
     <button class="btn btn-stone" onclick="switchTab('entry')">&#8592; Back to Entry</button>
   </div>
   <div id="bill-area">
@@ -552,6 +575,33 @@ table.bt td.ac{text-align:right;font-weight:700;}
   </div>
 </div>
 
+<!-- SEND PDF MODAL -->
+<div class="modal-overlay" id="sendModal" style="z-index:3000;">
+  <div class="modal-box" style="max-width:420px;width:94%;padding:18px;">
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#7A4A18;margin-bottom:4px;" id="send-title">PDF Bhejo</div>
+    <div style="font-size:12px;color:#8C6E50;margin-bottom:12px;word-break:break-all;" id="send-file"></div>
+    <div class="form-group" style="margin-bottom:10px;"><label>WhatsApp Number</label>
+      <input type="tel" id="send-phone" inputmode="tel" placeholder="10 digit mobile no." style="font-size:18px!important;font-weight:700;letter-spacing:1px;">
+    </div>
+    <button class="sz-btn" style="background:linear-gradient(135deg,#1e7e45,#25D366);" onclick="sendWhatsApp()">&#128242; WhatsApp pe PDF bhejo</button>
+    <div style="font-size:11px;color:#8C6E50;margin:-2px 2px 10px;line-height:1.4;">Share menu khulega &rarr; WhatsApp &rarr; upar wala number/contact chuno &rarr; Send.</div>
+    <button class="sz-btn" style="background:#fff;color:#1e7e45;border:1.5px solid #25D366;" onclick="sendTextOnly()">&#128172; Is number pe sirf message (bill amount)</button>
+    <button class="sz-btn" style="background:linear-gradient(135deg,#7A4A18,#B5702A);" onclick="sendDownload()">&#11015; PDF Download / Save</button>
+    <button class="sz-btn" style="background:var(--stone-pale);color:var(--text);margin-bottom:0;" onclick="closeSend()">Close</button>
+  </div>
+</div>
+
+<!-- SIZE DETAIL MODAL -->
+<div class="modal-overlay" id="sizeModal">
+  <div class="modal-box" style="max-width:600px;width:95%;max-height:92vh;overflow-y:auto;padding:0;">
+    <div id="sizeContent"></div>
+    <div style="padding:14px;">
+      <button class="sz-btn" style="background:linear-gradient(135deg,#1a3a6e,#2a5abf);" onclick="sizePdf()">&#128196; Size PDF — WhatsApp / Share / Download</button>
+      <button class="sz-btn" style="background:var(--stone-pale);color:var(--text);" onclick="document.getElementById('sizeModal').classList.remove('show')">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- VIEW MODAL -->
 <div class="modal-overlay" id="viewBillModal">
   <div class="modal-box" style="max-width:700px;width:95%;max-height:92vh;overflow-y:auto;padding:0;">
@@ -589,16 +639,93 @@ var F = {
        calc: function(s){ return pf(s.qty); },
        detailStr: function(s){ return s.qty+' Ton'; },
        resultStr: function(v){ return v.toFixed(3)+' Ton'; }
+  },
+  5: { name:'Farsi',         short:'Farsi',     unit:'SqFt',  rateLabel:'Rate/SqFt',
+       fields:['qty','length','breadth'], labels:['Qty','Length','Breadth'],
+       calc: function(s){ return (pf(s.qty)||1)*pf(s.length)*pf(s.breadth); },
+       detailStr: function(s){ return (s.qty||1)+' x '+s.length+' x '+s.breadth; },
+       resultStr: function(v){ return v.toFixed(3)+' SqFt'; }
   }
 };
+var MAIN_FIDS = [5,2,1];   // 1.Farsi 2.Tukda/Patiya 3.Muksar
+var EXTRA_FIDS = [3,4];   // Dhalde, Muksar in Ton (chhote button)
+var FIDS = MAIN_FIDS.concat(EXTRA_FIDS);
 
 function pf(v){ return parseFloat(v)||0; }
+function cleanTxt(v){ return String(v==null?'':v).replace(/[<>"]/g,'').trim(); }
 function fmt(n){ return parseFloat(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function fmtRs(n){ return '&#8377;'+fmt(n); }
 
 // ── STATE ──
 var itemId=0, items=[], savedBills=[], billCounter=1;
 var mines=[], activeMineId=null;
+var lastFormulaId=5; var savedRates={};
+try{ var _lf=parseInt(localStorage.getItem('ss_last_formula')); if(F[_lf]) lastFormulaId=_lf; }catch(e){}
+try{ savedRates=JSON.parse(localStorage.getItem('ss_rates')||'{}')||{}; }catch(e){ savedRates={}; }
+function rememberRate(fid, rate){ if(!F[fid]) return; savedRates[fid]=rate; try{ localStorage.setItem('ss_rates', JSON.stringify(savedRates)); }catch(e){} }
+function rateFor(fid){ return savedRates[fid]||''; }
+
+// ── ITEM CARD (Entry + Edit dono ke liye) ──
+function itemCardHTML(it, idx, total, pre){
+  var f=F[it.formulaId]||F[1];
+  var val=f.calc(it), rate=pf(it.rate), amt=val*rate;
+  var cf=pre?'emChangeFormula':'changeFormula', up=pre?'emUpdateItem':'updateItem',
+      rm=pre?'emRemoveItem':'removeItem', dp=pre?'emDupItem':'dupItem', rid=pre?'em-':'';
+  function chip(n, small){
+    return '<button type="button" class="f-chip'+(small?' f-chip-sm':'')+(it.formulaId===n?' on':'')+'" onclick="'+cf+'('+it.id+','+n+')">'+F[n].name+'</button>';
+  }
+  var nc=f.fields.length;
+  var h='<div class="item-row-header">'
+      +'<span class="item-num-badge">Item #'+(idx+1)+'</span>'
+      +'<div class="item-right-controls">'
+        +'<button type="button" class="dup-btn" onclick="'+dp+'('+it.id+')" title="Same size copy">&#10697; Copy</button>'
+        +(total>1?'<button type="button" class="del-btn" onclick="'+rm+'('+it.id+')">&times;</button>':'')
+      +'</div></div>'
+    +'<div class="f-chips">'+MAIN_FIDS.map(function(n){return chip(n,false);}).join('')+'</div>'
+    +'<div class="f-chips f-chips-sm">'+EXTRA_FIDS.map(function(n){return chip(n,true);}).join('')+'</div>'
+    +'<div class="dim-grid" style="grid-template-columns:repeat('+nc+',1fr);">';
+  f.fields.forEach(function(field, fi){
+    h+='<div class="form-group"><label>'+f.labels[fi]+'</label>'+numInput(it[field], up+'('+it.id+',\''+field+'\',this.value)', true)+'</div>';
+  });
+  h+='</div>'
+    +'<div class="rate-row">'
+      +'<div class="form-group rate-box"><label>'+f.rateLabel+' (Rs)</label>'+numInput(it.rate, up+'('+it.id+',\'rate\',this.value)', false, true)+'</div>'
+      +'<div class="res-box"><span class="item-result-badge" id="'+rid+'res-'+it.id+'">'+f.resultStr(val)+'</span>'
+      +'<span class="item-amt-badge" id="'+rid+'amt-'+it.id+'">'+(rate>0?'= Rs '+Math.round(amt).toLocaleString('en-IN'):'Rs --')+'</span></div>'
+    +'</div>';
+  return h;
+}
+function setLastFormula(fid){ if(!F[fid]) return; lastFormulaId=fid; try{ localStorage.setItem('ss_last_formula',String(fid)); }catch(e){} }
+
+// ── EASY NUMBER INPUT (mobile) ──
+function numInput(val, oninput, isDim, isRate){
+  return '<input type="text" inputmode="decimal" enterkeyhint="'+(isRate?'done':'next')+'" autocomplete="off" class="'+(isRate?'rate-in':'num-in')+'"'
+    +(isDim?' data-dim="1"':'')+' placeholder="0" value="'+(val||'')+'"'
+    +' onfocus="selAll(this)" onkeydown="numKey(event,this)"'
+    +' oninput="this.value=this.value.replace(/[^0-9.]/g,\'\');'+oninput+'">';
+}
+function selAll(el){ setTimeout(function(){ try{ el.select(); el.setSelectionRange(0, el.value.length); }catch(e){} }, 10); }
+function numKey(e, el){
+  if(e.key!=='Enter') return;
+  e.preventDefault();
+  if(el.classList.contains('rate-in')){ el.blur(); return; }
+  var box=el.closest('#items-container')||el.closest('#em-items-container');
+  if(!box) return;
+  var all=[].slice.call(box.querySelectorAll('input.num-in'));
+  var i=all.indexOf(el);
+  if(i>=0 && i<all.length-1){ all[i+1].focus(); return; }
+  // last field of last item -> naya item jodo
+  if(box.id==='items-container') addItem(true); else emAddItem(true);
+}
+function focusNewItem(boxId){
+  setTimeout(function(){
+    var box=document.getElementById(boxId); if(!box) return;
+    var rows=box.children; if(!rows.length) return;
+    var last=rows[rows.length-1];
+    var inp=last.querySelector('input[data-dim]')||last.querySelector('input.num-in');
+    if(inp){ inp.focus(); last.scrollIntoView({behavior:'smooth',block:'center'}); }
+  }, 30);
+}
 
 // ── STORAGE ──
 function loadStorage(){
@@ -762,10 +889,12 @@ function updateEntryMineBadge(){
 }
 
 // ── ITEMS ──
-function addItem(){
+function addItem(focus){
   var id=++itemId;
-  items.push({id:id, formulaId:1, qty:'', length:'', breadth:'', height:'', rate:''});
+  var fid=lastFormulaId;
+  items.push({id:id, formulaId:fid, qty:'', length:'', breadth:'', height:'', rate:rateFor(fid)});
   renderItems(); recalcPayment();
+  if(focus===true) focusNewItem('items-container');
 }
 
 function removeItem(id){
@@ -776,14 +905,21 @@ function removeItem(id){
 
 function updateItem(id, field, value){
   var it=items.find(function(i){return i.id===id;});
-  if(it){ it[field]=value; recalcPayment(); refreshItemBadge(id); }
+  if(it){ it[field]=value; if(field==='rate') rememberRate(it.formulaId, value); recalcPayment(); refreshItemBadge(id); }
+}
+function dupItem(id){
+  var i=items.findIndex(function(x){return x.id===id;}); if(i<0) return;
+  var c=JSON.parse(JSON.stringify(items[i])); c.id=++itemId;
+  items.splice(i+1,0,c); renderItems(); recalcPayment();
+  showToast('Same size copy ho gaya — Qty badal lo');
 }
 
 function changeFormula(id, fid){
   var it=items.find(function(i){return i.id===id;});
   if(!it) return;
-  it.formulaId=parseInt(fid);
-  it.qty=''; it.length=''; it.breadth=''; it.height='';
+  fid=parseInt(fid); if(it.formulaId===fid) return;
+  it.formulaId=fid; setLastFormula(fid);
+  it.qty=''; it.length=''; it.breadth=''; it.height=''; it.rate=rateFor(fid);
   renderItems(); recalcPayment();
 }
 
@@ -803,38 +939,8 @@ function refreshItemBadge(id){
 function renderItems(){
   var c=document.getElementById('items-container'); c.innerHTML='';
   items.forEach(function(it, idx){
-    var f=F[it.formulaId];
-    var val=f.calc(it), rate=pf(it.rate), amt=val*rate;
     var div=document.createElement('div'); div.className='item-row';
-    var topRow='<div class="item-formula-row">'
-      +'<div class="form-group"><label>Formula Type</label>'
-      +'<select class="formula-mini-select" onchange="changeFormula('+it.id+',this.value)">'
-      +[1,2,3,4].map(function(n){
-          return '<option value="'+n+'"'+(it.formulaId===n?' selected':'')+'>F'+n+': '+F[n].name+'</option>';
-        }).join('')
-      +'</select></div>'
-      +'<div class="form-group"><label>'+f.rateLabel+' (Rs)</label>'
-      +'<input type="number" placeholder="0" value="'+(it.rate||'')+'" oninput="updateItem('+it.id+',\'rate\',this.value)">'
-      +'</div></div>';
-    var nc=f.fields.length;
-    var gs=nc===1?'grid-template-columns:1fr':nc===2?'grid-template-columns:1fr 1fr':nc===3?'grid-template-columns:1fr 1fr 1fr':'grid-template-columns:1fr 1fr 1fr 1fr';
-    var fieldsHTML='<div style="display:grid;'+gs+';gap:9px;">';
-    f.fields.forEach(function(field, fi){
-      fieldsHTML+='<div class="form-group"><label>'+f.labels[fi]+'</label>'
-        +'<input type="number" placeholder="0" value="'+(it[field]||'')+'" oninput="updateItem('+it.id+',\''+field+'\',this.value)">'
-        +'</div>';
-    });
-    fieldsHTML+='</div>';
-    div.innerHTML=
-      '<div class="item-row-header">'
-        +'<span class="item-num-badge">Item #'+(idx+1)+'</span>'
-        +'<div class="item-right-controls">'
-          +'<span class="item-result-badge" id="res-'+it.id+'">'+f.resultStr(val)+'</span>'
-          +'<span class="item-amt-badge" id="amt-'+it.id+'">'+(rate>0?'= Rs '+Math.round(amt).toLocaleString('en-IN'):'Rs --')+'</span>'
-          +(items.length>1?'<button class="del-btn" onclick="removeItem('+it.id+')">&times;</button>':'')
-        +'</div>'
-      +'</div>'
-      +topRow+fieldsHTML;
+    div.innerHTML=itemCardHTML(it, idx, items.length, false);
     c.appendChild(div);
   });
 }
@@ -919,10 +1025,10 @@ function getBillData(){
   }
   var am=getActiveMine();
   return{
-    firmName: document.getElementById('firmName').value||'',
-    buyerName: document.getElementById('buyerName').value||'--',
-    buyerPhone: document.getElementById('buyerPhone').value||'',
-    vehicleNo: document.getElementById('vehicleNo').value.toUpperCase()||'--',
+    firmName: cleanTxt(document.getElementById('firmName').value)||'',
+    buyerName: cleanTxt(document.getElementById('buyerName').value)||'--',
+    buyerPhone: cleanTxt(document.getElementById('buyerPhone').value)||'',
+    vehicleNo: cleanTxt(document.getElementById('vehicleNo').value).toUpperCase()||'--',
     subTotal:sub, roundoff:ro, netPayable:net, advance:adv, paid:paid, remaining:rem,
     dateStr:ds, items:JSON.parse(JSON.stringify(items)),
     billNo:'BILL-'+String(billCounter).padStart(4,'0'),
@@ -1003,6 +1109,9 @@ function populateBill(data){
 
 // ── SAVE & RESET ──
 function saveBillAndReset(){
+  if(getSubTotal()<=0 && !items.some(function(it){ return pf(it.qty)||pf(it.length); })){
+    showToast('⚠ Pehle item ki size / qty bharo'); switchTab('entry'); return;
+  }
   document.getElementById('modal-buyer-name').textContent=document.getElementById('buyerName').value.trim()||'(No Name)';
   document.getElementById('saveModal').classList.add('show');
 }
@@ -1083,7 +1192,8 @@ function renderHistory(){
       +'</div></div>'
       +'<div class="bch-actions"><button class="bch-btn bch-view" onclick="viewBill('+billIdx+')">View</button>'
       +'<button class="bch-btn bch-edit" onclick="editBill('+billIdx+')">&#9998; Edit</button>'
-      +'<button class="bch-btn bch-pdf" onclick="downloadBillPdf('+billIdx+')">&#128424; PDF</button>'
+      +'<button class="bch-btn bch-pdf" onclick="sendBill('+billIdx+')">&#128196; PDF</button>'
+      +'<button class="bch-btn bch-size" onclick="showSizeDetail('+billIdx+')">&#128207; Sizes</button>'
       +'<button class="bch-btn bch-delete" onclick="deleteBill('+billIdx+')">Delete</button></div>';
     list.appendChild(card);
   });
@@ -1464,7 +1574,7 @@ function savePdfBill(data, pdfName, pft){
     doc.setFont('helvetica','bold'); doc.setTextColor(181,112,42);
     doc.text(clean(f.name), cols.item+2, y+mid);
     doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(90,58,24);
-    doc.text(detLines, cols.details+2, y+10);
+    doc.text(detLines, cols.details+2, y+(rowH-detLines.length*11)/2+8);
     doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(44,79,15);
     doc.text(clean(f.resultStr(val2)), cols.result+70, y+mid, {align:'right'});
     doc.setFont('helvetica','normal'); doc.setTextColor(42,24,0);
@@ -1478,9 +1588,9 @@ function savePdfBill(data, pdfName, pft){
   var pftKeys=Object.keys(pft||{});
   if(pftKeys.length){
     addPageIfNeeded(20+pftKeys.length*20);
-    hline(); y+=4;
+    hline(); y+=14;
     doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(168,144,112);
-    doc.text('MEASUREMENT SUMMARY', m, y); y+=12;
+    doc.text('MEASUREMENT SUMMARY', m, y); y+=8;
     pftKeys.forEach(function(fid){
       var f=F[fid]||F[1], ft=pft[fid];
       addPageIfNeeded(24);
@@ -1550,6 +1660,7 @@ function savePdfBill(data, pdfName, pft){
   // Share/Save
   var pdfBlob = doc.output('blob');
   var fileName = pdfName+'.pdf';
+  if(_pdfCapture){ _captured={blob:pdfBlob, fileName:fileName}; return true; }
   if(navigator.share && navigator.canShare && navigator.canShare({files:[new File([pdfBlob],'test.pdf',{type:'application/pdf'})]})){
     var file=new File([pdfBlob],fileName,{type:'application/pdf'});
     navigator.share({title:fileName,files:[file]}).then(function(){
@@ -1564,6 +1675,242 @@ function savePdfBill(data, pdfName, pft){
 }
 
 
+// ── SIZE DETAIL ──
+var _sizeData=null;
+function esc(v){ return String(v==null?'':v).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function nOut(v){ var n=pf(v); return String(Math.round(n*1000)/1000); }
+function sizeLabel(f, it){
+  var dims=f.fields.filter(function(x){return x!=='qty';});
+  if(!dims.length) return '';
+  return dims.map(function(d){ return nOut(it[d]); }).join(' x ');
+}
+function getSizeGroups(data){
+  var secs={}, order=[];
+  (data.items||[]).forEach(function(it){
+    var fid=it.formulaId||1, f=F[fid]||F[1];
+    var val=0; try{ val=f.calc(it); }catch(e){}
+    if(val===0 && !pf(it.qty)) return; // khali item skip
+    if(!secs[fid]){ secs[fid]={fid:fid, f:f, rows:[], map:{}, nag:0, total:0}; order.push(fid); }
+    var sec=secs[fid];
+    var hasDims=f.fields.length>1;
+    var nag=hasDims?(pf(it.qty)||1):pf(it.qty);
+    var key=hasDims?sizeLabel(f,it):'_all';
+    if(!sec.map[key]){ sec.map[key]={size:key, nag:0, total:0}; sec.rows.push(sec.map[key]); }
+    sec.map[key].nag+=nag; sec.map[key].total+=val;
+    sec.nag+=nag; sec.total+=val;
+  });
+  return order.map(function(k){ return secs[k]; });
+}
+function sizeHead(f){
+  var dims=f.fields.filter(function(x){return x!=='qty';});
+  return dims.length ? dims.map(function(d){ return {length:'L',breadth:'B',height:'H'}[d]; }).join(' x ') : '';
+}
+function showSizeDetail(idx){
+  var data = idx<0 ? getBillData() : savedBills[idx];
+  if(!data){ showToast('Bill not found.'); return; }
+  _sizeData=data;
+  var secs=getSizeGroups(data);
+  var firm=data.firmName||'anand stones suppliers';
+  var h='<div style="text-align:center;padding:18px 16px 12px;border-bottom:1px solid #e8dcc8;">'
+    +'<div style="font-family:\'Playfair Display\',serif;font-size:19px;font-weight:900;color:#8C6E50;font-style:italic;">'+esc(firm)+'</div>'
+    +'<div style="font-size:11px;color:#B5702A;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:5px;">SIZE DETAIL</div></div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;padding:10px 14px;font-size:12px;border-bottom:1px solid #e8dcc8;">'
+    +'<div><b>Buyer:</b> '+esc(data.buyerName)+'</div><div style="text-align:right"><b>Vehicle:</b> '+esc(data.vehicleNo)+'</div>'
+    +'<div><b>Date:</b> '+esc(data.dateStr)+'</div><div style="text-align:right"><b>'+esc(data.billNo||'')+'</b></div>'
+    +(data.mineName?'<div><b>Mine:</b> '+esc(data.mineName)+'</div>':'')
+    +'</div>';
+  if(!secs.length){ h+='<div style="padding:24px;text-align:center;color:#a89070;">Koi item nahi bhara hai.</div>'; }
+  var gNag=0;
+  secs.forEach(function(sec){
+    var f=sec.f, hasDims=f.fields.length>1;
+    gNag+=sec.nag;
+    h+='<div class="sz-sec-title"><span>'+esc(f.name)+'</span><span>'+f.resultStr(sec.total)+'</span></div>';
+    if(hasDims){
+      h+='<table class="sz-table"><thead><tr><th>#</th><th>Size ('+sizeHead(f)+')</th><th>Nag</th><th>Total '+f.unit+'</th></tr></thead><tbody>';
+      sec.rows.forEach(function(r,i){
+        h+='<tr><td>'+(i+1)+'</td><td style="font-weight:700">'+r.size+'</td><td>'+nOut(r.nag)+'</td><td>'+f.resultStr(r.total)+'</td></tr>';
+      });
+      h+='<tr class="sz-tot"><td></td><td>Total</td><td>'+nOut(sec.nag)+'</td><td>'+f.resultStr(sec.total)+'</td></tr></tbody></table>';
+    } else {
+      h+='<div style="padding:10px 14px;font-size:13px;">'+esc(f.labels[0])+': <b>'+f.resultStr(sec.total)+'</b></div>';
+    }
+  });
+  document.getElementById('sizeContent').innerHTML=h;
+  document.getElementById('sizeModal').classList.add('show');
+}
+function sizeFileName(data){
+  var _buyer=(data.buyerName||'').replace(/^--$/,'').trim();
+  var _veh=(data.vehicleNo||'').replace(/[^a-zA-Z0-9]/g,'');
+  var n=[_buyer,_veh].filter(Boolean).join('_').replace(/[^a-zA-Z0-9_ ]/g,'').replace(/\s+/g,'_');
+  return (n?n+'_':'')+'Sizes';
+}
+function _unusedShareBlob(blob, fileName, okMsg){
+  try{
+    var file=new File([blob],fileName,{type:'application/pdf'});
+    if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+      navigator.share({title:fileName,files:[file]}).then(function(){ showToast(okMsg); })
+        .catch(function(e){ if(e.name!=='AbortError') iosFallbackSave(blob,fileName); });
+      return;
+    }
+  }catch(e){}
+  iosFallbackSave(blob,fileName);
+}
+function sizePdf(){
+  try{ _sizePdf(); }catch(e){ showToast('❌ PDF error: '+e.message); }
+}
+function _sizePdf(){
+  var data=_sizeData; if(!data) return;
+  if(!window.jspdf || !window.jspdf.jsPDF){ showToast('PDF library load nahi hui — internet check karo'); return; }
+  var doc=new window.jspdf.jsPDF({orientation:'portrait',unit:'pt',format:'a4'});
+  var W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight(), m=40, y=46;
+  function T(v){ return String(v==null?'':v).replace(/[₹✓⛏]/g,'').trim(); }
+  function need(h){ if(y+h>H-40){ doc.addPage(); y=46; } }
+  doc.setFont('helvetica','bolditalic'); doc.setFontSize(20); doc.setTextColor(140,110,80);
+  doc.text(T(data.firmName||'Anand Stones Suppliers'), W/2, y, {align:'center'}); y+=18;
+  doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(181,112,42);
+  doc.text('SIZE DETAIL', W/2, y, {align:'center'}); y+=16;
+  doc.setDrawColor(216,201,176); doc.setLineWidth(0.6); doc.line(m,y,W-m,y); y+=16;
+  doc.setFontSize(10); doc.setTextColor(42,24,0);
+  doc.setFont('helvetica','bold'); doc.text('Buyer: ',m,y); doc.setFont('helvetica','normal'); doc.text(T(data.buyerName),m+38,y);
+  doc.setFont('helvetica','bold'); doc.text('Vehicle: '+T(data.vehicleNo), W-m, y, {align:'right'}); y+=15;
+  doc.setFont('helvetica','bold'); doc.text('Date: ',m,y); doc.setFont('helvetica','normal'); doc.text(T(data.dateStr),m+32,y);
+  doc.setFont('helvetica','bold'); doc.text(T(data.billNo||''), W-m, y, {align:'right'}); y+=15;
+  if(data.mineName){ doc.setFont('helvetica','bold'); doc.text('Mine: ',m,y); doc.setFont('helvetica','normal'); doc.text(T(data.mineName),m+32,y); y+=15; }
+  y+=4; doc.line(m,y,W-m,y); y+=14;
+  var cols=[m, m+40, m+260, m+360]; // #, Size, Nag, Total
+  getSizeGroups(data).forEach(function(sec){
+    var f=sec.f, hasDims=f.fields.length>1;
+    need(60);
+    doc.setFillColor(242,224,192); doc.rect(m,y-11,W-2*m,18,'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(122,74,24);
+    doc.text(T(f.name), m+6, y+2); doc.text(f.resultStr(sec.total), W-m-6, y+2, {align:'right'}); y+=22;
+    if(!hasDims){
+      doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(42,24,0);
+      doc.text(T(f.labels[0])+': '+f.resultStr(sec.total), m+6, y); y+=20; return;
+    }
+    doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(140,110,80);
+    doc.text('#',cols[0]+6,y); doc.text('SIZE ('+sizeHead(f)+')',cols[1],y); doc.text('NAG',cols[2],y); doc.text('TOTAL '+f.unit.toUpperCase(),W-m-6,y,{align:'right'});
+    y+=6; doc.setDrawColor(216,201,176); doc.line(m,y,W-m,y); y+=13;
+    doc.setFontSize(10.5); doc.setTextColor(42,24,0);
+    sec.rows.forEach(function(r,i){
+      need(18);
+      doc.setFont('helvetica','normal'); doc.text(String(i+1),cols[0]+6,y);
+      doc.setFont('helvetica','bold'); doc.text(r.size,cols[1],y);
+      doc.setFont('helvetica','normal'); doc.text(nOut(r.nag),cols[2],y);
+      doc.text(f.resultStr(r.total),W-m-6,y,{align:'right'});
+      y+=5; doc.setDrawColor(240,232,218); doc.line(m,y,W-m,y); y+=12;
+    });
+    need(20);
+    doc.setFont('helvetica','bold'); doc.text('Total',cols[1],y); doc.text(nOut(sec.nag),cols[2],y);
+    doc.text(f.resultStr(sec.total),W-m-6,y,{align:'right'}); y+=24;
+  });
+  need(20);
+  doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(168,144,112);
+  doc.text('GhanFeet Size Detail  |  '+T(data.dateStr)+'  |  '+T(data.firmName||'Anand Stones Suppliers'), W/2, y+6, {align:'center'});
+  openSend(doc.output('blob'), sizeFileName(data)+'.pdf', data, 'size');
+}
+// ── SEND PDF (WhatsApp number / Share / Download) ──
+var _pdfCapture=false, _captured=null, _send=null;
+function sendBill(idx){
+  _captured=null; _pdfCapture=true;
+  try{ if(idx<0) printBill(); else downloadBillPdf(idx); }
+  catch(e){ _pdfCapture=false; showToast('❌ PDF error: '+e.message); return; }
+  _pdfCapture=false;
+  if(!_captured) return; // jsPDF nahi mila — purana print wala tareeka chala
+  openSend(_captured.blob, _captured.fileName, idx<0?getBillData():savedBills[idx], 'bill');
+}
+function openSend(blob, fileName, data, kind){
+  _send={blob:blob, fileName:fileName, data:data||{}, kind:kind};
+  document.getElementById('send-title').textContent = kind==='size' ? 'Size Detail PDF' : 'Bill PDF';
+  document.getElementById('send-file').textContent = fileName;
+  document.getElementById('send-phone').value = String((data&&data.buyerPhone)||'').replace(/[^0-9+]/g,'');
+  document.getElementById('sendModal').classList.add('show');
+}
+function closeSend(){ document.getElementById('sendModal').classList.remove('show'); }
+function sendMsg(){
+  var d=_send.data, buyer=(d.buyerName&&d.buyerName!=='--')?d.buyerName:'';
+  if(_send.kind==='size'){
+    return 'Namaste'+(buyer?' '+buyer:'')+',\nSize detail PDF bhej raha hoon.\n'+(d.billNo?d.billNo+' | ':'')+(d.dateStr||'')+(d.vehicleNo&&d.vehicleNo!=='--'?' | Gaadi: '+d.vehicleNo:'')+'\n- '+(d.firmName||'Anand Stones Suppliers');
+  }
+  return 'Namaste'+(buyer?' '+buyer:'')+',\nAapka bill PDF bhej raha hoon.\n'+(d.billNo?d.billNo+' | ':'')+(d.dateStr||'')+(d.vehicleNo&&d.vehicleNo!=='--'?' | Gaadi: '+d.vehicleNo:'')
+    +'\nNet Amount: Rs '+fmt(d.netPayable||0)+((d.remaining||0)>0?'\nBaaki: Rs '+fmt(d.remaining):'\nPAID')+'\n- '+(d.firmName||'Anand Stones Suppliers');
+}
+function waNumber(){
+  var n=document.getElementById('send-phone').value.replace(/[^0-9]/g,'');
+  if(n.length===11 && n[0]==='0') n=n.slice(1);
+  if(n.length===10) n='91'+n;
+  return n;
+}
+function isIOSDevice(){ return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1); }
+function pdfFile(){ try{ return new File([_send.blob], _send.fileName, {type:'application/pdf'}); }catch(e){ return null; } }
+function canShareFile(f){ try{ return !!(f && navigator.share && navigator.canShare && navigator.canShare({files:[f]})); }catch(e){ return false; } }
+function shareFileNow(okMsg){
+  // NOTE: koi bhi await/timeout se pehle share call hona chahiye (phone ka rule)
+  var f=pdfFile();
+  if(!canShareFile(f)) return false;
+  navigator.share({files:[f]}).then(function(){ showToast(okMsg||'✅ PDF bhej di'); })
+    .catch(function(e){ if(e && e.name!=='AbortError') showToast('❌ Share nahi hua: '+e.message); });
+  return true;
+}
+function anchorDownload(blob, fileName){
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url; a.download=fileName; a.rel='noopener';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+}
+function sendDownload(){
+  if(!_send) return;
+  try{
+    if(isIOSDevice()){
+      // iPhone: share sheet se "Save to Files" — har mode mein chalta hai
+      if(shareFileNow('✅ PDF save ho gayi')){ showToast('"Save to Files" chuno'); return; }
+      openPdfTab();
+      showToast('PDF khul gayi — Share (📤) → "Save to Files"');
+      return;
+    }
+    anchorDownload(_send.blob, _send.fileName);
+    showToast('⬇ PDF Downloads folder mein save ho rahi hai');
+  }catch(e){ showToast('❌ Download error: '+e.message); }
+}
+function sendShare(){
+  if(!_send) return;
+  if(shareFileNow('✅ PDF share ho gayi')) return;
+  showToast('Is browser mein share nahi chalta — PDF download kar rahe hain');
+  sendDownload();
+}
+function sendWhatsApp(){
+  if(!_send) return;
+  // WhatsApp mein PDF sirf phone ke share menu se hi ja sakti hai
+  if(shareFileNow('✅ PDF WhatsApp pe chali gayi')){
+    var n=document.getElementById('send-phone').value.trim();
+    showToast('WhatsApp chuno → '+(n?n+' wala contact':'contact')+' chuno → Send');
+    return;
+  }
+  if(isIOSDevice()){
+    // iPhone pe share tabhi chalta hai jab app https:// (GitHub Pages) se khuli ho
+    openPdfTab();
+    showToast('PDF khul gayi — neeche Share (📤) → WhatsApp. App ko GitHub Pages link se kholo taaki seedha share ho.');
+    return;
+  }
+  // Computer / purana browser: PDF download + number ki chat
+  anchorDownload(_send.blob, _send.fileName);
+  sendTextOnly();
+}
+function openPdfTab(){
+  var url=URL.createObjectURL(_send.blob);
+  var w=window.open(url,'_blank');
+  if(!w) location.href=url;
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 120000);
+}
+function sendTextOnly(){
+  if(!_send) return;
+  var n=waNumber();
+  if(n.length<11){ showToast('Sahi 10 digit number daalo'); document.getElementById('send-phone').focus(); return; }
+  var url='https://wa.me/'+n+'?text='+encodeURIComponent(sendMsg());
+  var w=window.open(url,'_blank');
+  if(!w) location.href=url;
+}
+
 // ── PRINT ──
 function printBill(){
   var data=getBillData(), rows='';
@@ -1577,6 +1924,7 @@ function printBill(){
   });
   var _buyer=(data.buyerName||'').replace(/^--$/,'').trim();
   var _firm=(data.firmName||'').trim();
+  var firm=_firm;
   var _veh=(data.vehicleNo||'').replace(/[^a-zA-Z0-9]/g,'');
   var pdfName=[_buyer,_firm,_veh].filter(Boolean).join('_').replace(/[^a-zA-Z0-9_ ]/g,'').replace(/\s+/g,'_')||'GhanFeet_Bill';
   var rc=data.remaining>0?'#B03020':'#2A8A48', rt=data.remaining>0?'Rs '+fmt(data.remaining):'PAID';
@@ -1727,6 +2075,8 @@ function _doEditBill(idx){
 
   // Deep-copy items
   emItems = JSON.parse(JSON.stringify(bill.items || []));
+  emItems.forEach(function(it,i){ if(!F[it.formulaId]) it.formulaId=1; if(!it.id) it.id=i+1; });
+  if(!emItems.length) emItems=[{id:1, formulaId:lastFormulaId, qty:'', length:'', breadth:'', height:'', rate:rateFor(lastFormulaId)}];
   emItemId = emItems.reduce(function(m,it){ return Math.max(m, it.id||0); }, 0);
 
   emRenderItems();
@@ -1740,11 +2090,14 @@ function closeEditModal(){
   _editIdx = -1;
 }
 
-function emAddItem(){
+function emAddItem(focus){
   var newId = ++emItemId;
-  emItems.push({id:newId, formulaId:1, qty:'', length:'', breadth:'', height:'', rate:''});
+  var prev = emItems[emItems.length-1];
+  var fid = prev ? (prev.formulaId||1) : lastFormulaId;
+  emItems.push({id:newId, formulaId:fid, qty:'', length:'', breadth:'', height:'', rate:(prev&&prev.formulaId===fid?prev.rate:rateFor(fid))||''});
   emRenderItems();
   emRecalc();
+  if(focus===true) focusNewItem('em-items-container');
 }
 
 function emRemoveItem(id){
@@ -1756,14 +2109,20 @@ function emRemoveItem(id){
 
 function emUpdateItem(id, field, value){
   var it = emItems.find(function(i){ return i.id === id; });
-  if(it){ it[field] = value; emRefreshBadge(id); emRecalc(); }
+  if(it){ it[field] = value; if(field==='rate') rememberRate(it.formulaId, value); emRefreshBadge(id); emRecalc(); }
+}
+function emDupItem(id){
+  var i=emItems.findIndex(function(x){return x.id===id;}); if(i<0) return;
+  var c=JSON.parse(JSON.stringify(emItems[i])); c.id=++emItemId;
+  emItems.splice(i+1,0,c); emRenderItems(); emRecalc();
 }
 
 function emChangeFormula(id, fid){
   var it = emItems.find(function(i){ return i.id === id; });
   if(!it) return;
-  it.formulaId = parseInt(fid);
-  it.qty=''; it.length=''; it.breadth=''; it.height='';
+  fid=parseInt(fid); if(it.formulaId===fid) return;
+  it.formulaId = fid; setLastFormula(fid);
+  it.qty=''; it.length=''; it.breadth=''; it.height=''; it.rate=rateFor(fid);
   emRenderItems();
   emRecalc();
 }
@@ -1784,42 +2143,9 @@ function emRenderItems(){
   var c = document.getElementById('em-items-container');
   c.innerHTML = '';
   emItems.forEach(function(it, idx){
-    var f = F[it.formulaId||1];
-    var val = f.calc(it), rate = pf(it.rate), amt = val*rate;
     var div = document.createElement('div');
     div.className = 'edit-item-row';
-
-    var topRow = '<div class="item-formula-row" style="margin-bottom:10px;">'
-      +'<div class="form-group"><label>Formula</label>'
-      +'<select class="formula-mini-select" onchange="emChangeFormula('+it.id+',this.value)">'
-      +[1,2,3,4].map(function(n){
-        return '<option value="'+n+'"'+(it.formulaId===n?' selected':'')+'>F'+n+': '+F[n].name+'</option>';
-      }).join('')
-      +'</select></div>'
-      +'<div class="form-group"><label>'+f.rateLabel+' (Rs)</label>'
-      +'<input type="number" placeholder="0" value="'+(it.rate||'')+'" oninput="emUpdateItem('+it.id+',\'rate\',this.value)">'
-      +'</div></div>';
-
-    var nc = f.fields.length;
-    var gs = nc===1?'1fr':nc===2?'1fr 1fr':nc===3?'1fr 1fr 1fr':'1fr 1fr 1fr 1fr';
-    var fieldsHTML = '<div style="display:grid;grid-template-columns:'+gs+';gap:8px;">';
-    f.fields.forEach(function(field, fi){
-      fieldsHTML += '<div class="form-group"><label>'+f.labels[fi]+'</label>'
-        +'<input type="number" placeholder="0" value="'+(it[field]||'')+'" oninput="emUpdateItem('+it.id+',\''+field+'\',this.value)">'
-        +'</div>';
-    });
-    fieldsHTML += '</div>';
-
-    div.innerHTML =
-      '<div class="edit-item-header">'
-        +'<span class="item-num-badge">Item #'+(idx+1)+'</span>'
-        +'<div class="item-right-controls">'
-          +'<span class="item-result-badge" id="em-res-'+it.id+'">'+f.resultStr(val)+'</span>'
-          +'<span class="item-amt-badge" id="em-amt-'+it.id+'">'+(rate>0?'= Rs '+Math.round(amt).toLocaleString('en-IN'):'Rs --')+'</span>'
-          +(emItems.length>1?'<button class="del-btn" onclick="emRemoveItem('+it.id+')">&times;</button>':'')
-        +'</div>'
-      +'</div>'
-      +topRow+fieldsHTML;
+    div.innerHTML = itemCardHTML(it, idx, emItems.length, true);
     c.appendChild(div);
   });
 }
@@ -1865,11 +2191,11 @@ function saveEditedBill(){
   var rem = net - adv - paid;
 
   // Update bill in place
-  bill.firmName = document.getElementById('em-firmName').value.trim();
-  bill.buyerName = document.getElementById('em-buyerName').value.trim() || '--';
-  bill.buyerPhone = document.getElementById('em-buyerPhone').value.trim() || '';
-  bill.vehicleNo = document.getElementById('em-vehicleNo').value.trim().toUpperCase() || '--';
-  bill.dateStr = document.getElementById('em-dateStr').value.trim();
+  bill.firmName = cleanTxt(document.getElementById('em-firmName').value);
+  bill.buyerName = cleanTxt(document.getElementById('em-buyerName').value) || '--';
+  bill.buyerPhone = cleanTxt(document.getElementById('em-buyerPhone').value) || '';
+  bill.vehicleNo = cleanTxt(document.getElementById('em-vehicleNo').value).toUpperCase() || '--';
+  bill.dateStr = cleanTxt(document.getElementById('em-dateStr').value);
   bill.mineId = mineId;
   bill.mineName = mineName;
   bill.items = JSON.parse(JSON.stringify(emItems));
@@ -1890,7 +2216,7 @@ function saveEditedBill(){
 
 function showToast(msg){
   var t=document.createElement('div'); t.textContent=msg;
-  t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2A1800;color:#FFF8EE;padding:12px 24px;border-radius:30px;font-family:Lora,serif;font-size:14px;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.3);white-space:nowrap;max-width:90vw;text-align:center;';
+  t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2A1800;color:#FFF8EE;padding:12px 24px;border-radius:30px;font-family:Lora,serif;font-size:14px;z-index:99999;box-shadow:0 4px 20px rgba(0,0,0,.3);white-space:normal;width:max-content;max-width:88vw;text-align:center;line-height:1.35;';
   document.body.appendChild(t); setTimeout(function(){t.remove();},3000);
 }
 
@@ -1907,6 +2233,9 @@ function switchTab(tab){
 }
 
 loadStorage(); renderMines(); updateEntryMineBadge(); addItem();
+setTimeout(function(){
+  if(isIOSDevice() && location.protocol!=='https:') showToast('⚠ PDF share ke liye app GitHub Pages (https) link se kholo');
+}, 800);
 // Set today's date as default
 (function(){
   var d = new Date();
@@ -1926,10 +2255,23 @@ function exportBackup(){
       bills: localStorage.getItem('ss_bills') || '[]',
       counter: localStorage.getItem('ss_counter') || '1',
       mines: localStorage.getItem('ss_mines') || '[]',
-      active: localStorage.getItem('ss_active_mine') || ''
+      active: localStorage.getItem('ss_active_mine') || '',
+      rates: localStorage.getItem('ss_rates') || '{}',
+      lastFormula: localStorage.getItem('ss_last_formula') || ''
     };
     var json = JSON.stringify(data);
     var blob = new Blob([json], {type:'application/json'});
+    var _d = new Date();
+    var _fn = 'GhanFeet_' + _d.getFullYear() + ('0'+(_d.getMonth()+1)).slice(-2) + ('0'+_d.getDate()).slice(-2) + '.json';
+    if(isIOSDevice()){
+      try{
+        var bf = new File([json], _fn, {type:'application/json'});
+        if(navigator.canShare && navigator.canShare({files:[bf]})){
+          navigator.share({files:[bf]}).then(function(){ showToast('✅ Backup save ho gaya'); }).catch(function(){});
+          showToast('"Save to Files" chuno'); return;
+        }
+      }catch(e){}
+    }
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     var d = new Date();
@@ -1957,6 +2299,8 @@ function importBackup(){
         localStorage.setItem('ss_mines', d.mines);
         if(d.active) localStorage.setItem('ss_active_mine', d.active);
         else localStorage.removeItem('ss_active_mine');
+        if(d.rates){ localStorage.setItem('ss_rates', d.rates); try{ savedRates=JSON.parse(d.rates)||{}; }catch(e){} }
+        if(d.lastFormula){ localStorage.setItem('ss_last_formula', d.lastFormula); setLastFormula(parseInt(d.lastFormula)); }
         loadStorage(); renderMines(); updateEntryMineBadge();
         showToast('✅ Data restore ho gaya!');
       } catch(e){ showToast('❌ Restore failed!'); }
@@ -1971,6 +2315,12 @@ function toggleBackupMenu(){
   var m = document.getElementById('bk-menu');
   m.style.display = (m.style.display === 'block') ? 'none' : 'block';
 }
+document.addEventListener('focusin', function(e){
+  if(e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)){ var w=document.getElementById('bk-btn'); if(w) w.parentNode.style.display='none'; }
+});
+document.addEventListener('focusout', function(){
+  setTimeout(function(){ var a=document.activeElement; if(!a || !/INPUT|SELECT|TEXTAREA/.test(a.tagName)){ var w=document.getElementById('bk-btn'); if(w) w.parentNode.style.display=''; } }, 150);
+});
 document.addEventListener('click', function(e){
   var m = document.getElementById('bk-menu');
   var b = document.getElementById('bk-btn');
